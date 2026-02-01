@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery.com - Find Trusted Treatment for Your Loved One</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e5f74;
+            --primary-dark: #133d4a;
+            --accent: #3db8a2;
+            --accent-light: #e8f7f4;
+            --text: #2d3748;
+            --text-light: #718096;
+            --bg-warm: #fdfbf7;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--white);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .nav-cta {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-warm) 0%, #f0f7f5 100%);
+            padding: 8rem 2rem 4rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Merriweather', serif;
+            font-size: 2.75rem;
+            line-height: 1.2;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            color: var(--accent);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-form {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero-form h2 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+        }
+
+        .hero-form p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .btn-primary {
+            width: 100%;
+            background: var(--accent);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+            transform: translateY(-1px);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-light);
+        }
+
+        /* Trust Badges */
+        .trust-badges {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .trust-badge svg {
+            color: var(--accent);
+        }
+
+        /* Pain Points Section */
+        .pain-points {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .pain-card {
+            background: var(--bg-warm);
+            padding: 2rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .pain-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .pain-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: linear-gradient(180deg, #f8fafb 0%, var(--white) 100%);
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin: 0 auto 1rem;
+        }
+
+        .step h3 {
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .step p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .features .section-header h2 {
+            color: white;
+        }
+
+        .features .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--accent);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.95rem;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            padding: 5rem 2rem;
+            background: var(--accent-light);
+        }
+
+        .testimonial-card {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-card blockquote {
+            font-family: 'Merriweather', serif;
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-info strong {
+            display: block;
+            color: var(--primary-dark);
+        }
+
+        .author-info span {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 2rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-family: 'Merriweather', serif;
+            font-size: 2rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-large.primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-large.primary:hover {
+            background: var(--primary);
+        }
+
+        .btn-large.secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-large.secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Crisis Banner */
+        .crisis-banner {
+            background: #fef3c7;
+            padding: 1rem 2rem;
+            text-align: center;
+            border-bottom: 1px solid #f59e0b;
+        }
+
+        .crisis-banner p {
+            font-size: 0.9rem;
+            color: #92400e;
+        }
+
+        .crisis-banner a {
+            color: #92400e;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.7);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2rem;
+            }
+
+            .trust-badges {
+                justify-content: center;
+            }
+
+            .pain-grid,
+            .steps,
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Crisis Banner -->
+    <div class="crisis-banner">
+        <p>In crisis? Call the SAMHSA National Helpline: <a href="tel:1-800-662-4357">1-800-662-4357</a> (free, confidential, 24/7)</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">R</div>
+                Recovery.com
+            </a>
+            <a href="#search" class="nav-cta">Find Treatment</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Find treatment you can <span>trust</span> for someone you love</h1>
+                <p>When your family is in crisis, you need answers—not sales pitches. We help you find verified, reviewed treatment centers that match your needs and insurance.</p>
+
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        15,000+ Verified Facilities
+                    </div>
+                    <div class="trust-badge">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Real Family Reviews
+                    </div>
+                    <div class="trust-badge">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                        Insurance Accepted
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-form" id="search">
+                <h2>Find the right treatment center</h2>
+                <p>Get matched with verified facilities in minutes</p>
+                <form>
+                    <div class="form-group">
+                        <label for="location">Your Location</label>
+                        <input type="text" id="location" placeholder="City, State or ZIP code">
+                    </div>
+                    <div class="form-group">
+                        <label for="treatment">Treatment Needed</label>
+                        <select id="treatment">
+                            <option value="">Select treatment type</option>
+                            <option value="substance">Substance Use / Addiction</option>
+                            <option value="alcohol">Alcohol Use Disorder</option>
+                            <option value="opioid">Opioid Addiction</option>
+                            <option value="dual">Dual Diagnosis</option>
+                            <option value="mental">Mental Health</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="insurance">Insurance Provider</label>
+                        <select id="insurance">
+                            <option value="">Select insurance</option>
+                            <option value="bcbs">Blue Cross Blue Shield</option>
+                            <option value="aetna">Aetna</option>
+                            <option value="cigna">Cigna</option>
+                            <option value="united">UnitedHealthcare</option>
+                            <option value="other">Other</option>
+                            <option value="self">Self-Pay</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary">Search Treatment Centers</button>
+                    <p class="form-footer">Free and confidential. No spam, ever.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points Section -->
+    <section class="pain-points">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>We understand what you're going through</h2>
+                <p>Finding treatment for a loved one shouldn't be this hard. We built Recovery.com to solve the problems families face every day.</p>
+            </div>
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <h3>"I don't know who to trust"</h3>
+                    <p>Every facility we list is license-verified. Read real reviews from families who've been where you are—not fake testimonials.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>"I'm overwhelmed by options"</h3>
+                    <p>Filter by what matters: insurance, location, treatment type, and specialties. Compare programs side-by-side.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>"Will my insurance cover this?"</h3>
+                    <p>Check coverage before you call. We show which facilities accept your plan and what to expect for costs.</p>
+                </div>
+                <div class="pain-card">
+                    <h3>"I need help now, not next week"</h3>
+                    <p>See real-time availability. Connect directly with admissions teams who can help today.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>How Recovery.com works</h2>
+                <p>From search to admission, we're with you every step</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Search & Compare</h3>
+                    <p>Enter your location and needs. Browse verified facilities, read reviews, and compare programs.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Check Your Coverage</h3>
+                    <p>Upload your insurance card or enter your info. We'll show you what's covered and estimated costs.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Connect & Get Help</h3>
+                    <p>Reach out directly to facilities. No middlemen, no brokers—just compassionate admissions teams ready to help.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="section-header">
+            <h2>Why families choose Recovery.com</h2>
+            <p>Transparency and trust in an industry that needs it</p>
+        </div>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3>Verified Facilities</h3>
+                <p>Every listing is license-verified. We check accreditation, certifications, and inspect for quality.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">★</div>
+                <h3>Real Reviews</h3>
+                <p>Authentic reviews from patients and families. We detect and remove fake testimonials.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">$</div>
+                <h3>Cost Transparency</h3>
+                <p>Know what to expect before you call. Insurance verification and price estimates upfront.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Immediate Help</h3>
+                <p>Real-time availability. Connect with admissions teams ready to help you today.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡</div>
+                <h3>No Patient Brokering</h3>
+                <p>We never sell your information to brokers. Connect directly with facilities—that's it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Family Resources</h3>
+                <p>Guides, articles, and support for families navigating treatment and recovery.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial">
+        <div class="testimonial-card">
+            <blockquote>
+                "When my son needed help, I was terrified and didn't know where to turn. Recovery.com helped me find a program that took our insurance and had real reviews from other parents. Six months later, he's doing better than I ever imagined."
+            </blockquote>
+            <div class="testimonial-author">
+                <div class="author-avatar">LM</div>
+                <div class="author-info">
+                    <strong>Linda M.</strong>
+                    <span>Mother of a son in recovery, Ohio</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>Your loved one's recovery starts with one step</h2>
+        <p>Search thousands of verified treatment centers. It's free, confidential, and takes less than a minute.</p>
+        <div class="cta-buttons">
+            <a href="#search" class="btn-large primary">Find Treatment Now</a>
+            <a href="tel:1-800-555-0123" class="btn-large secondary">Call Us: 1-800-555-0123</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">How It Works</a>
+            <a href="#">For Treatment Centers</a>
+            <a href="#">Resources</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p>&copy; 2026 Recovery.com. All rights reserved. | We do not provide medical advice. Always consult a healthcare professional.</p>
+    </footer>
+</body>
+</html>
