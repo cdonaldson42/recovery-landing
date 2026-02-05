@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery.com PRO - Referral Platform for Healthcare Professionals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #ebf8ff;
+            --success: #38a169;
+            --success-light: #c6f6d5;
+            --warning: #d69e2e;
+            --text: #1a202c;
+            --text-light: #4a5568;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --bg-gray: #f7fafc;
+            --white: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--white);
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .pro-badge {
+            background: var(--success);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: white;
+        }
+
+        .nav-cta {
+            background: var(--white);
+            color: var(--primary);
+            padding: 0.6rem 1.25rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .nav-cta:hover {
+            background: var(--accent-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            padding: 8rem 2rem 5rem;
+            color: white;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            color: var(--success);
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 2rem;
+            max-width: 520px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--success);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        /* Demo Box */
+        .demo-box {
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .demo-header {
+            background: var(--bg-gray);
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--border);
+        }
+
+        .demo-dot.red { background: #fc8181; }
+        .demo-dot.yellow { background: #f6e05e; }
+        .demo-dot.green { background: #68d391; }
+
+        .demo-content {
+            padding: 1.5rem;
+        }
+
+        .demo-search {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .demo-btn {
+            background: var(--accent);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .demo-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-chip {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.4rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .demo-result {
+            background: var(--bg-gray);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-info h4 {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .result-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .badge-dot.available { background: var(--success); }
+        .badge-dot.limited { background: var(--warning); }
+
+        .result-action {
+            background: var(--primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Pain Points */
+        .pain-points {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-label {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .pain-card {
+            background: var(--bg-gray);
+            border-radius: 12px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.25rem;
+            align-items: flex-start;
+        }
+
+        .pain-icon {
+            width: 48px;
+            height: 48px;
+            background: #fed7d7;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .pain-card h3 {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .pain-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--bg-gray);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: var(--accent-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .feature-list li svg {
+            color: var(--success);
+            flex-shrink: 0;
+        }
+
+        /* Workflow */
+        .workflow {
+            padding: 5rem 2rem;
+            background: var(--white);
+            overflow: hidden;
+        }
+
+        .workflow-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            position: relative;
+        }
+
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 12.5%;
+            right: 12.5%;
+            height: 2px;
+            background: var(--border);
+            z-index: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.8s ease;
+        }
+
+        .workflow.in-view .workflow-steps::before {
+            transform: scaleX(1);
+        }
+
+        .workflow-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--white);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.25rem;
+            font-size: 1.75rem;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .workflow.in-view .workflow-step:nth-child(1) .step-number {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.2s;
+        }
+        .workflow.in-view .workflow-step:nth-child(2) .step-number {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.4s;
+        }
+        .workflow.in-view .workflow-step:nth-child(3) .step-number {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.6s;
+        }
+        .workflow.in-view .workflow-step:nth-child(4) .step-number {
+            opacity: 1;
+            transform: scale(1);
+            transition-delay: 0.8s;
+        }
+
+        .workflow-step h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .workflow-step p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 200px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .workflow.in-view .workflow-step:nth-child(1) h3,
+        .workflow.in-view .workflow-step:nth-child(1) p {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.35s;
+        }
+        .workflow.in-view .workflow-step:nth-child(2) h3,
+        .workflow.in-view .workflow-step:nth-child(2) p {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.55s;
+        }
+        .workflow.in-view .workflow-step:nth-child(3) h3,
+        .workflow.in-view .workflow-step:nth-child(3) p {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.75s;
+        }
+        .workflow.in-view .workflow-step:nth-child(4) h3,
+        .workflow.in-view .workflow-step:nth-child(4) p {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.95s;
+        }
+
+        /* Personas */
+        .personas {
+            padding: 5rem 2rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .personas .section-label {
+            background: rgba(255,255,255,0.15);
+            color: white;
+        }
+
+        .personas .section-header h2 {
+            color: white;
+        }
+
+        .personas .section-header p {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .persona-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .persona-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .persona-card:hover {
+            background: rgba(255,255,255,0.15);
+        }
+
+        .persona-avatar {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+        }
+
+        .persona-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .persona-card .role {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 1rem;
+        }
+
+        .persona-card .quote {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        /* Integrations */
+        .integrations {
+            padding: 5rem 2rem;
+            background: var(--bg-gray);
+        }
+
+        .integration-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .integration-logo {
+            background: var(--white);
+            padding: 1.5rem 2.5rem;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--accent);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            background: var(--accent-light);
+            transform: scale(1.02);
+        }
+
+        .pricing-tier {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .pricing-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li svg {
+            color: var(--success);
+            flex-shrink: 0;
+        }
+
+        .pricing-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .pricing-btn.primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .pricing-btn.primary:hover {
+            background: var(--primary);
+        }
+
+        .pricing-btn.secondary {
+            background: var(--bg-gray);
+            color: var(--primary);
+        }
+
+        .pricing-btn.secondary:hover {
+            background: var(--border);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-large.primary {
+            background: var(--white);
+            color: var(--primary);
+        }
+
+        .btn-large.primary:hover {
+            background: var(--accent-light);
+        }
+
+        .btn-large.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-large.secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: rgba(255,255,255,0.7);
+            padding: 3rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-legal {
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .demo-box {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .features-grid,
+            .persona-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .workflow-steps {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+
+            .workflow-steps::before {
+                display: none;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .pain-grid,
+            .features-grid,
+            .persona-grid,
+            .workflow-steps {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">R</div>
+                Recovery.com
+                <span class="pro-badge">PRO</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#workflow" class="nav-link">How It Works</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#" class="nav-link">Login</a>
+                <a href="#demo" class="nav-cta">Request Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Make confident referrals in <span>minutes</span>, not hours</h1>
+                <p>The referral platform built for healthcare professionals. Find verified treatment facilities, check real-time availability, verify insurance, and track patient outcomes—all in one place.</p>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label">Verified Facilities</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2.5 min</div>
+                        <div class="stat-label">Avg. Time to Referral</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">94%</div>
+                        <div class="stat-label">Successful Placements</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-box">
+                <div class="demo-header">
+                    <div class="demo-dot red"></div>
+                    <div class="demo-dot yellow"></div>
+                    <div class="demo-dot green"></div>
+                </div>
+                <div class="demo-content">
+                    <div class="demo-search">
+                        <input type="text" class="demo-input" placeholder="Denver, CO" disabled>
+                        <button class="demo-btn">Search</button>
+                    </div>
+                    <div class="demo-filters">
+                        <span class="filter-chip">Medical Detox</span>
+                        <span class="filter-chip">Accepts Medicaid</span>
+                        <span class="filter-chip">Beds Available</span>
+                    </div>
+                    <div class="demo-result">
+                        <div class="result-info">
+                            <h4>Mountain View Recovery Center</h4>
+                            <div class="result-meta">
+                                <span class="result-badge"><span class="badge-dot available"></span> 3 beds</span>
+                                <span>JCAHO Accredited</span>
+                                <span>Accepts Medicaid</span>
+                            </div>
+                        </div>
+                        <a href="#" class="result-action">Refer</a>
+                    </div>
+                    <div class="demo-result">
+                        <div class="result-info">
+                            <h4>Colorado Springs Detox</h4>
+                            <div class="result-meta">
+                                <span class="result-badge"><span class="badge-dot limited"></span> 1 bed</span>
+                                <span>CARF Accredited</span>
+                                <span>Accepts Medicaid</span>
+                            </div>
+                        </div>
+                        <a href="#" class="result-action">Refer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pain Points -->
+    <section class="pain-points">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">The Problem</span>
+                <h2>Referrals shouldn't be this hard</h2>
+                <p>You're spending hours on the phone instead of with patients. We get it.</p>
+            </div>
+            <div class="pain-grid">
+                <div class="pain-card">
+                    <div class="pain-icon">📞</div>
+                    <div>
+                        <h3>"No beds available"</h3>
+                        <p>You call 5 facilities before finding one with availability. By then, your patient has left or changed their mind.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">💳</div>
+                    <div>
+                        <h3>"We don't take that insurance"</h3>
+                        <p>Half your calls end here. Medicaid patients are especially hard to place. You need to know coverage before you dial.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">📋</div>
+                    <div>
+                        <h3>"I have 5 minutes with this patient"</h3>
+                        <p>You can't spend 30 minutes researching facilities during an appointment. You need answers now.</p>
+                    </div>
+                </div>
+                <div class="pain-card">
+                    <div class="pain-icon">❓</div>
+                    <div>
+                        <h3>"Did they actually go?"</h3>
+                        <p>You refer patients and never hear what happened. No feedback loop, no outcome data, no way to improve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Features</span>
+                <h2>Everything you need to refer with confidence</h2>
+                <p>Built by healthcare professionals, for healthcare professionals.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛏️</div>
+                    <h3>Real-Time Bed Availability</h3>
+                    <p>See which facilities have beds right now. Updated every 4 hours by facility staff.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Filter by level of care
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Waitlist notifications
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Weekend availability
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>Instant Insurance Verification</h3>
+                    <p>Check coverage in seconds. Know what's covered before you refer.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Medicaid by state
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            All major commercial plans
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Self-pay / sliding scale
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏥</div>
+                    <h3>Verified Quality Indicators</h3>
+                    <p>Accreditation, licensing, and outcome data you can trust.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            JCAHO, CARF, state licenses
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Professional reviews
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Completion rates
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>One-Click Referrals</h3>
+                    <p>Send secure referrals directly. No more phone tag.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            HIPAA-compliant forms
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Confirmation in minutes
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Auto-populated records
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Outcome Tracking</h3>
+                    <p>Know what happened after you referred. Close the feedback loop.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Admission confirmation
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Completion notifications
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Aftercare coordination
+                        </li>
+                    </ul>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚖️</div>
+                    <h3>Compliance Reporting</h3>
+                    <p>Automated documentation for court-mandated referrals.</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Attendance verification
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Court-approved facilities
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Exportable reports
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Workflow -->
+    <section class="workflow" id="workflow">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">How It Works</span>
+                <h2>From search to placement in 4 steps</h2>
+                <p>Streamlined workflow designed for busy clinicians.</p>
+            </div>
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="step-number">🔍</div>
+                    <h3>Search</h3>
+                    <p>Filter by location, level of care, insurance, and availability</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">✓</div>
+                    <h3>Verify</h3>
+                    <p>Check insurance coverage and confirm bed availability instantly</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">📤</div>
+                    <h3>Refer</h3>
+                    <p>Send secure referral with patient info directly to facility</p>
+                </div>
+                <div class="workflow-step">
+                    <div class="step-number">📊</div>
+                    <h3>Track</h3>
+                    <p>Get admission confirmation and outcome updates automatically</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personas -->
+    <section class="personas">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Built For You</span>
+                <h2>Trusted by professionals across healthcare</h2>
+                <p>From primary care to probation, Recovery.com PRO fits your workflow.</p>
+            </div>
+            <div class="persona-grid">
+                <div class="persona-card">
+                    <div class="persona-avatar">👩‍⚕️</div>
+                    <h3>Primary Care Physicians</h3>
+                    <p class="role">Family Medicine, Internal Medicine</p>
+                    <p class="quote">"I can find a referral while my patient is still in the room."</p>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-avatar">🏥</div>
+                    <h3>Hospital Social Workers</h3>
+                    <p class="role">Discharge Planning, Case Management</p>
+                    <p class="quote">"Real-time beds changed everything. No more endless phone calls."</p>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-avatar">🧠</div>
+                    <h3>Therapists & Counselors</h3>
+                    <p class="role">LPC, LCSW, Psychologists</p>
+                    <p class="quote">"I can finally find dual-diagnosis programs that coordinate with me."</p>
+                </div>
+                <div class="persona-card">
+                    <div class="persona-avatar">⚖️</div>
+                    <h3>Probation & Court Officers</h3>
+                    <p class="role">Drug Court, Parole</p>
+                    <p class="quote">"Compliance reports are automatic. The court loves it."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="integrations">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Integrations</span>
+                <h2>Works with your existing systems</h2>
+                <p>Connect Recovery.com PRO to your EHR and workflows.</p>
+            </div>
+            <div class="integration-logos">
+                <div class="integration-logo">Epic</div>
+                <div class="integration-logo">Cerner</div>
+                <div class="integration-logo">Athenahealth</div>
+                <div class="integration-logo">eClinicalWorks</div>
+                <div class="integration-logo">+ More</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Pricing</span>
+                <h2>Plans for every practice size</h2>
+                <p>Start free. Upgrade when you need more.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">Starter</div>
+                    <h3>Individual</h3>
+                    <div class="pricing-price">Free</div>
+                    <p class="pricing-desc">For solo practitioners</p>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Facility search & filtering
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            5 referrals / month
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Basic insurance check
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Email support
+                        </li>
+                    </ul>
+                    <a href="#" class="pricing-btn secondary">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-tier">Most Popular</div>
+                    <h3>Professional</h3>
+                    <div class="pricing-price">$99<span>/mo</span></div>
+                    <p class="pricing-desc">For practices & clinics</p>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Unlimited referrals
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Real-time bed availability
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Instant insurance verification
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Outcome tracking
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Priority support
+                        </li>
+                    </ul>
+                    <a href="#" class="pricing-btn primary">Start Free Trial</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">Enterprise</div>
+                    <h3>Organization</h3>
+                    <div class="pricing-price">Custom</div>
+                    <p class="pricing-desc">For hospitals & health systems</p>
+                    <ul class="pricing-features">
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Everything in Professional
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            EHR integration
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            SSO & admin controls
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Compliance reporting
+                        </li>
+                        <li>
+                            <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                            Dedicated success manager
+                        </li>
+                    </ul>
+                    <a href="#" class="pricing-btn secondary">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta" id="demo">
+        <h2>Ready to streamline your referrals?</h2>
+        <p>Join 5,000+ healthcare professionals who trust Recovery.com PRO. Get started in minutes—no credit card required.</p>
+        <div class="cta-buttons">
+            <a href="#" class="btn-large primary">Start Free Trial</a>
+            <a href="#" class="btn-large secondary">Request Demo</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">For Facilities</a>
+                <a href="#">Help Center</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+                <a href="#">HIPAA Compliance</a>
+            </div>
+            <p class="footer-legal">&copy; 2026 Recovery.com PRO. HIPAA Compliant. SOC 2 Type II Certified.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll-triggered animations
+        const animatedSections = document.querySelectorAll('.workflow');
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, {
+            threshold: 0.2
+        });
+
+        animatedSections.forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
