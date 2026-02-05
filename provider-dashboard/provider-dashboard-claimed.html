@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery.com - Provider Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --accent: #3182ce;
+            --accent-light: #ebf8ff;
+            --success: #38a169;
+            --success-light: #c6f6d5;
+            --warning: #d69e2e;
+            --warning-light: #fefcbf;
+            --text: #1a202c;
+            --text-light: #4a5568;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --bg-gray: #f7fafc;
+            --white: #ffffff;
+            --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--bg-gray);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: var(--primary);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-left: 0.5rem;
+            padding-left: 0.5rem;
+            border-left: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .help-link {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .help-link:hover {
+            color: white;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .user-menu:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .user-name {
+            font-size: 0.9rem;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            color: white;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        /* Benefits Grid */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .benefit-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .benefit-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .benefit-card h3 {
+            font-size: 0.95rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Status Banner */
+        .status-banner {
+            background: var(--warning-light);
+            border: 1px solid #ecc94b;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .status-banner.verified {
+            background: var(--success-light);
+            border-color: var(--success);
+        }
+
+        .status-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-icon {
+            font-size: 1.5rem;
+        }
+
+        .status-header h2 {
+            font-size: 1.1rem;
+            color: var(--text);
+        }
+
+        .status-header .badge {
+            background: var(--warning);
+            color: white;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-banner.verified .badge {
+            background: var(--success);
+        }
+
+        .status-content p {
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .status-steps {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .status-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        /* Two Column Layout */
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Profile Completion */
+        .completion-meter {
+            margin-bottom: 1.5rem;
+        }
+
+        .completion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .completion-percentage {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .completion-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--bg-gray);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--success) 100%);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .check-icon.done {
+            background: var(--success);
+            color: white;
+        }
+
+        .check-icon.pending {
+            background: var(--border);
+            color: var(--text-muted);
+        }
+
+        /* Facility Info Card */
+        .facility-info h4 {
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 0.25rem;
+        }
+
+        .facility-address {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary);
+        }
+
+        .btn-secondary {
+            background: var(--bg-gray);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover {
+            background: var(--border);
+        }
+
+        .btn-disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .edit-btn-container {
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Subscription Card */
+        .subscription-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .subscription-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .plan-icon {
+            font-size: 1.5rem;
+        }
+
+        .plan-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .plan-features {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .plan-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .plan-feature .check {
+            color: var(--success);
+        }
+
+        /* Build Profile Section */
+        .build-section {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .build-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .build-header h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .build-header p {
+            color: var(--text-muted);
+        }
+
+        .build-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .build-card {
+            background: var(--bg-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .build-card:hover {
+            border-color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        .build-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .build-card h3 {
+            font-size: 1rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .build-card p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .build-card .link {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .build-card .link:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .benefits-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .two-column {
+                grid-template-columns: 1fr;
+            }
+
+            .status-steps {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .build-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-container {
+                padding: 1rem;
+            }
+
+            .welcome-section {
+                padding: 1.5rem;
+            }
+
+            .welcome-section h1 {
+                font-size: 1.35rem;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--text);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+            margin-bottom: 0.5rem;
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">R</div>
+                Recovery.com
+                <span class="logo-subtitle">Provider Portal</span>
+            </a>
+            <div class="header-right">
+                <a href="#" class="help-link">
+                    <span>?</span> Help
+                </a>
+                <div class="user-menu">
+                    <div class="user-avatar">MC</div>
+                    <span class="user-name">Marcus Chen</span>
+                    <span>▾</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <h1>Welcome to Recovery.com, Marcus!</h1>
+            <p>You've taken the first step to connecting with families seeking treatment.</p>
+        </section>
+
+        <!-- Benefits Grid -->
+        <section class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">📧</div>
+                <h3>Leads to Your Inbox</h3>
+                <p>Qualified inquiries sent directly to your admissions email</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📋</div>
+                <h3>Comprehensive Profile</h3>
+                <p>Showcase your programs, staff, amenities, and success stories</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🎛️</div>
+                <h3>Full Control</h3>
+                <p>Update your facility details anytime—you own your presence</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">🌎</div>
+                <h3>Nationwide Search</h3>
+                <p>Families across the country can find you when searching for care</p>
+            </div>
+        </section>
+
+        <!-- Status Banner -->
+        <section class="status-banner">
+            <div class="status-header">
+                <span class="status-icon">⏳</span>
+                <h2>Your Claim is Being Reviewed</h2>
+                <span class="badge">Pending</span>
+            </div>
+            <div class="status-content">
+                <p>A Recovery.com Provider Ambassador will verify your center. Typical review time: <strong>1-2 business days</strong></p>
+                <div class="status-steps">
+                    <div class="status-step">
+                        <span class="step-number">1</span>
+                        <span>Ambassador reviews your submitted data</span>
+                    </div>
+                    <div class="status-step">
+                        <span class="step-number">2</span>
+                        <span>They may contact you to verify details</span>
+                    </div>
+                    <div class="status-step">
+                        <span class="step-number">3</span>
+                        <span>Once approved, your profile goes live</span>
+                    </div>
+                    <div class="status-step">
+                        <span class="step-number">4</span>
+                        <span>You'll receive email confirmation</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Column Layout -->
+        <section class="two-column">
+            <!-- Profile Completion -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📊 Profile Completion</h3>
+                </div>
+                <div class="completion-meter">
+                    <div class="completion-header">
+                        <div>
+                            <span class="completion-percentage">25%</span>
+                            <span class="completion-label">complete</span>
+                        </div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 25%"></div>
+                    </div>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Complete your profile to stand out to families searching for treatment.</p>
+                <ul class="checklist">
+                    <li>
+                        <span class="check-icon done">✓</span>
+                        Basic contact information
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Facility photos (0 of 5 recommended)
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Treatment programs offered
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Insurance plans accepted
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Staff and credentials
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Amenities and features
+                    </li>
+                    <li>
+                        <span class="check-icon pending">○</span>
+                        Reviews (0)
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Facility Information -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>🏥 Your Information</h3>
+                </div>
+                <div class="facility-info">
+                    <h4>New Horizons Wellness Center</h4>
+                    <p class="facility-address">1847 Recovery Lane, Austin, TX 78701</p>
+
+                    <div class="info-row">
+                        <span class="info-icon">📞</span>
+                        <span>(512) 555-0123</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">🌐</span>
+                        <span>newhorizonswellness.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-icon">✉️</span>
+                        <span>admissions@newhorizonswellness.com</span>
+                    </div>
+
+                    <div class="edit-btn-container">
+                        <div class="tooltip-container">
+                            <button class="btn btn-disabled">Edit Information</button>
+                            <span class="tooltip">Available after verification</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscription Card -->
+        <section class="subscription-card">
+            <div class="subscription-header">
+                <div class="plan-info">
+                    <span class="plan-icon">📦</span>
+                    <div>
+                        <div class="plan-name">Your Plan: Free Listing</div>
+                        <div class="plan-features">
+                            <span class="plan-feature"><span class="check">✓</span> Basic facility profile</span>
+                            <span class="plan-feature"><span class="check">✓</span> Search inclusion</span>
+                            <span class="plan-feature"><span class="check">✓</span> Lead notifications</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-secondary">View Premium Features →</a>
+            </div>
+        </section>
+
+        <!-- Build Your Profile Section -->
+        <section class="build-section">
+            <div class="build-header">
+                <h2>🚀 Get Ready: Build Your Profile</h2>
+                <p>While waiting for verification, prepare content to make your profile stand out:</p>
+            </div>
+            <div class="build-grid">
+                <div class="build-card">
+                    <div class="build-icon">📸</div>
+                    <h3>Gather Photos</h3>
+                    <p>High-quality images help families visualize care. Exterior, common areas, and treatment spaces work best.</p>
+                    <a href="#" class="link">Photo Guidelines →</a>
+                </div>
+                <div class="build-card">
+                    <div class="build-icon">⭐</div>
+                    <h3>Collect Reviews</h3>
+                    <p>Reviews build trust. After verification, you'll get tools to request reviews from past clients.</p>
+                    <a href="#" class="link">Review Tips →</a>
+                </div>
+                <div class="build-card">
+                    <div class="build-icon">📝</div>
+                    <h3>Write Your Story</h3>
+                    <p>Prepare descriptions of your treatment philosophy, programs, specialties, and what makes you different.</p>
+                    <a href="#" class="link">Content Guide →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Links -->
+        <footer class="footer-links">
+            <a href="#" class="footer-link">
+                <span>⚙️</span> Settings
+            </a>
+            <a href="#" class="footer-link">
+                <span>❓</span> Help Center
+            </a>
+            <a href="#" class="footer-link">
+                <span>👥</span> Manage Team
+            </a>
+            <a href="#" class="footer-link">
+                <span>📧</span> Contact Support
+            </a>
+        </footer>
+    </div>
+</body>
+</html>
