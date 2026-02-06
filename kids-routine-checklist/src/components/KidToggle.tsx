@@ -1,6 +1,6 @@
 "use client";
 
-import { KidId } from "@/lib/types";
+import { KidId, KID_NAMES } from "@/lib/types";
 
 interface KidToggleProps {
   activeKid: KidId;
@@ -18,7 +18,7 @@ export default function KidToggle({ activeKid, onToggle }: KidToggleProps) {
             : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
         }`}
       >
-        Kid 1
+        {KID_NAMES.kid1}
       </button>
       <button
         onClick={() => onToggle("kid2")}
@@ -28,7 +28,7 @@ export default function KidToggle({ activeKid, onToggle }: KidToggleProps) {
             : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
         }`}
       >
-        Kid 2
+        {KID_NAMES.kid2}
       </button>
     </div>
   );

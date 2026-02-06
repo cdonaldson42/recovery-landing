@@ -8,11 +8,12 @@ import { RoutineType } from "@/lib/types";
 import TaskItem from "@/components/TaskItem";
 import ProgressBar from "@/components/ProgressBar";
 import Confetti from "@/components/Confetti";
+import Celebration from "@/components/Celebration";
 import KidToggle from "@/components/KidToggle";
 
 const ROUTINE_META: Record<RoutineType, { emoji: string; title: string }> = {
   morning: { emoji: "☀️", title: "Morning Routine" },
-  bedtime: { emoji: "🌙", title: "Bedtime Routine" },
+  bedtime: { emoji: "🌙", title: "Evening Routine" },
 };
 
 export default function RoutinePage() {
@@ -58,6 +59,7 @@ export default function RoutinePage() {
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-20">
       <Confetti fire={allDone} />
+      <Celebration fire={allDone} />
 
       {/* Top nav */}
       <div className="flex items-center justify-between mb-4">
@@ -127,7 +129,7 @@ export default function RoutinePage() {
             Amazing job!
           </h2>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
-            You finished your {routineType} routine!
+            You finished your {routineType === "bedtime" ? "evening" : routineType} routine!
           </p>
           <Link
             href="/"

@@ -9,10 +9,10 @@ export const DEFAULT_MORNING_TASKS: Task[] = [
 ];
 
 export const DEFAULT_BEDTIME_TASKS: Task[] = [
-  { id: "bedtime-1", label: "Homework", order: 1 },
+  { id: "bedtime-1", label: "Do Homework", order: 1 },
   { id: "bedtime-2", label: "Practice Piano", order: 2 },
-  { id: "bedtime-3", label: "Pajamas", order: 3 },
-  { id: "bedtime-4", label: "Bathroom", order: 4 },
+  { id: "bedtime-3", label: "Put on Pajamas", order: 3 },
+  { id: "bedtime-4", label: "Go to Bathroom", order: 4 },
   { id: "bedtime-5", label: "Brush Teeth", order: 5 },
   { id: "bedtime-6", label: "Read Books", order: 6 },
 ];

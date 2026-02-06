@@ -72,7 +72,7 @@ export default function Dashboard() {
       <div className="flex gap-6 mb-8 p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
         <StreakCounter streak={morningStreak} label="Morning streak" />
         <div className="w-px bg-gray-200 dark:bg-gray-700" />
-        <StreakCounter streak={bedtimeStreak} label="Bedtime streak" />
+        <StreakCounter streak={bedtimeStreak} label="Evening streak" />
       </div>
 
       {/* Routine Cards */}
@@ -109,7 +109,7 @@ export default function Dashboard() {
 
         <div className="p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
-            🌙 Bedtime
+            🌙 Evening
           </p>
           <WeeklyDots
             history={state.history}
