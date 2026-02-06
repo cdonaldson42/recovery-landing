@@ -105,7 +105,7 @@ export default function RoutinePage() {
       </div>
 
       {/* Sticky progress bar */}
-      <div className="sticky top-0 z-10 bg-background/80 backdrop-blur-sm py-3 mb-4">
+      <div className="sticky top-0 z-10 bg-[rgba(250,249,246,0.8)] dark:bg-[rgba(15,15,26,0.8)] backdrop-blur-sm py-3 mb-4">
         <ProgressBar completed={completedCount} total={tasks.length} />
       </div>
 

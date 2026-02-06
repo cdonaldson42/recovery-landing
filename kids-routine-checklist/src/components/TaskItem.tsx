@@ -44,7 +44,7 @@ export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps)
         ${pressing ? "scale-95" : "scale-100"}
         ${
           isCompleted
-            ? "border-green-300 bg-green-50 dark:bg-green-950/30 dark:border-green-800 opacity-75"
+            ? "border-green-300 bg-green-50 dark:bg-[rgba(3,46,21,0.3)] dark:border-green-800 opacity-75"
             : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md"
         }
       `}

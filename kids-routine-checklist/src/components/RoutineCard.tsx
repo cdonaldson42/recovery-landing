@@ -14,12 +14,12 @@ const ROUTINE_META: Record<RoutineType, { emoji: string; title: string; gradient
   morning: {
     emoji: "☀️",
     title: "Morning Routine",
-    gradient: "from-amber-100 to-orange-100 dark:from-amber-950/40 dark:to-orange-950/40",
+    gradient: "from-amber-100 to-orange-100 dark:from-[rgba(69,26,3,0.4)] dark:to-[rgba(67,20,7,0.4)]",
   },
   bedtime: {
     emoji: "🌙",
     title: "Evening Routine",
-    gradient: "from-indigo-100 to-purple-100 dark:from-indigo-950/40 dark:to-purple-950/40",
+    gradient: "from-indigo-100 to-purple-100 dark:from-[rgba(30,26,77,0.4)] dark:to-[rgba(60,3,102,0.4)]",
   },
 };
 
@@ -54,7 +54,7 @@ export default function RoutineCard({ type, tasks, completion, streak }: Routine
           <h2 className="text-xl font-bold dark:text-white">{meta.title}</h2>
         </div>
         {streak > 0 && (
-          <span className="text-sm font-bold bg-white/70 dark:bg-black/30 px-2 py-1 rounded-full">
+          <span className="text-sm font-bold bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded-full">
             🔥 {streak}
           </span>
         )}
@@ -67,7 +67,7 @@ export default function RoutineCard({ type, tasks, completion, streak }: Routine
         <span className="font-semibold">{pct}%</span>
       </div>
 
-      <div className="w-full h-2.5 bg-white/50 dark:bg-black/20 rounded-full overflow-hidden">
+      <div className="w-full h-2.5 bg-[rgba(255,255,255,0.5)] dark:bg-[rgba(0,0,0,0.2)] rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${barColor}`}
           style={{ width: `${pct}%` }}
