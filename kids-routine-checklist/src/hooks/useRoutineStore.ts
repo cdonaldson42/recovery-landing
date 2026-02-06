@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { AppState, RoutineType, KidDayRecord, KidId } from "@/lib/types";
+import { AppState, RoutineType, KidDayRecord, KidId, Task } from "@/lib/types";
 import { DEFAULT_STATE } from "@/lib/defaults";
 import { loadState, saveState, getToday } from "@/lib/storage";
 
@@ -83,7 +83,10 @@ export function useRoutineStore() {
   // Load from localStorage on mount (always use latest routines from code)
   useEffect(() => {
     const raw = loadState();
-    const withRoutines = { ...raw, routines: DEFAULT_STATE.routines };
+    const withRoutines = {
+      ...raw,
+      routines: raw.routines?.morning?.length ? raw.routines : DEFAULT_STATE.routines,
+    };
     const migrated = migrateHistory(withRoutines);
     const cleaned = pruneStaleCompletions(migrated);
     const s = ensureToday(cleaned);
@@ -106,8 +109,8 @@ export function useRoutineStore() {
       setState((prev) => {
         const s = ensureToday(prev);
         const kid = s.settings.activeKid;
-        const dayRec = s.history[today];
-        const kidRec = dayRec[kid];
+        const dayRec = s.history[today] ?? EMPTY_DAY;
+        const kidRec = dayRec[kid] ?? EMPTY_KID_DAY;
         const routine = kidRec[routineType];
         const isCompleted = routine.completed.includes(taskId);
 
@@ -155,6 +158,54 @@ export function useRoutineStore() {
     }));
   }, []);
 
+  const addTask = useCallback((routineType: RoutineType, label: string) => {
+    const trimmed = label.trim();
+    if (!trimmed) return;
+    setState((prev) => {
+      const tasks = prev.routines[routineType];
+      const newTask: Task = {
+        id: `${routineType}-${Date.now()}`,
+        label: trimmed,
+        order: tasks.length + 1,
+      };
+      return {
+        ...prev,
+        routines: {
+          ...prev.routines,
+          [routineType]: [...tasks, newTask],
+        },
+      };
+    });
+  }, []);
+
+  const removeTask = useCallback((routineType: RoutineType, taskId: string) => {
+    setState((prev) => {
+      const tasks = prev.routines[routineType]
+        .filter((t) => t.id !== taskId)
+        .map((t, i) => ({ ...t, order: i + 1 }));
+      return pruneStaleCompletions({
+        ...prev,
+        routines: { ...prev.routines, [routineType]: tasks },
+      });
+    });
+  }, []);
+
+  const reorderTask = useCallback((routineType: RoutineType, taskId: string, direction: "up" | "down") => {
+    setState((prev) => {
+      const tasks = [...prev.routines[routineType]];
+      const idx = tasks.findIndex((t) => t.id === taskId);
+      if (idx < 0) return prev;
+      const swapIdx = direction === "up" ? idx - 1 : idx + 1;
+      if (swapIdx < 0 || swapIdx >= tasks.length) return prev;
+      [tasks[idx], tasks[swapIdx]] = [tasks[swapIdx], tasks[idx]];
+      const renumbered = tasks.map((t, i) => ({ ...t, order: i + 1 }));
+      return {
+        ...prev,
+        routines: { ...prev.routines, [routineType]: renumbered },
+      };
+    });
+  }, []);
+
   // Calculate streak for a routine type (scoped to active kid)
   const getStreak = useCallback(
     (routineType: RoutineType): number => {
@@ -197,6 +248,9 @@ export function useRoutineStore() {
     toggleTask,
     toggleDarkMode,
     setActiveKid,
+    addTask,
+    removeTask,
+    reorderTask,
     getStreak,
     activeKid,
   };

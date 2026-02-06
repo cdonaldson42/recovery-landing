@@ -20,6 +20,12 @@ const ANIMALS: AnimalScene[] = [
   { emoji: "🐉", name: "dragon", animation: "animate-dragon-fire", label: "Dragon celebration!" },
   { emoji: "🦏", name: "rhino", animation: "animate-charge-across", label: "Rhino stampede!" },
   { emoji: "🦅", name: "eagle", animation: "animate-eagle-soar", label: "Eagle soars!" },
+  { emoji: "🦫", name: "capybara", animation: "animate-chill-waddle", label: "Capybara vibes!" },
+  { emoji: "🐼", name: "panda", animation: "animate-tumble-roll", label: "Panda tumble!" },
+  { emoji: "🐨", name: "koala", animation: "animate-climb-wave", label: "Koala says hi!" },
+  { emoji: "🦂", name: "scorpion", animation: "animate-scuttle-snap", label: "Scorpion snap!" },
+  { emoji: "🐊", name: "crocodile", animation: "animate-jaw-charge", label: "Croc attack!" },
+  { emoji: "🕷️", name: "spider", animation: "animate-cute-rappel", label: "Spider drop!" },
 ];
 
 function pickRandom(): AnimalScene {

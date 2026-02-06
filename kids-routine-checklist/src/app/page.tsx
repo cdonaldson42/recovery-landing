@@ -26,12 +26,19 @@ export default function Dashboard() {
   const { state, loaded, todayRecord, getStreak, toggleDarkMode, setActiveKid, activeKid } =
     useRoutineStore();
 
-  // Apply dark mode class to html element
+  // Apply dark mode + kid theme class to html element
   useEffect(() => {
     if (loaded) {
       document.documentElement.classList.toggle("dark", state.settings.darkMode);
     }
   }, [state.settings.darkMode, loaded]);
+
+  useEffect(() => {
+    if (loaded) {
+      document.documentElement.classList.remove("theme-kid1", "theme-kid2");
+      document.documentElement.classList.add(`theme-${activeKid}`);
+    }
+  }, [activeKid, loaded]);
 
   if (!loaded) {
     return (
@@ -56,7 +63,7 @@ export default function Dashboard() {
         </div>
         <button
           onClick={toggleDarkMode}
-          className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-xl hover:scale-110 transition-transform cursor-pointer"
+          className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
           aria-label="Toggle dark mode"
         >
           {state.settings.darkMode ? "☀️" : "🌙"}
@@ -64,14 +71,14 @@ export default function Dashboard() {
       </div>
 
       {/* Kid Toggle */}
-      <div className="mb-6">
+      <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-3 mb-6">
         <KidToggle activeKid={activeKid} onToggle={setActiveKid} />
       </div>
 
       {/* Streaks */}
-      <div className="flex gap-6 mb-8 p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+      <div className="flex gap-6 mb-8 p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
         <StreakCounter streak={morningStreak} label="Morning streak" />
-        <div className="w-px bg-gray-200 dark:bg-gray-700" />
+        <div className="w-px bg-[var(--surface-dim)]" />
         <StreakCounter streak={bedtimeStreak} label="Evening streak" />
       </div>
 
@@ -95,7 +102,7 @@ export default function Dashboard() {
       <div className="space-y-4">
         <h3 className="text-lg font-bold dark:text-white">This Week</h3>
 
-        <div className="p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+        <div className="p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             ☀️ Morning
           </p>
@@ -107,7 +114,7 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="p-4 bg-white dark:bg-gray-800 rounded-2xl shadow-sm">
+        <div className="p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
             🌙 Evening
           </p>

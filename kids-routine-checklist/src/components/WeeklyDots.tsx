@@ -36,7 +36,7 @@ export default function WeeklyDots({ history, routineType, tasks, activeKid }: W
                     ? "bg-green-400 text-white scale-110"
                     : partial
                       ? "bg-amber-300 text-amber-900"
-                      : "bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500"
+                      : "bg-[var(--surface-dim)] text-gray-400 dark:text-gray-500"
                 }
               `}
             >

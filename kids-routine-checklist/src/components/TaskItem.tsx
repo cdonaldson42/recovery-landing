@@ -7,15 +7,18 @@ interface TaskItemProps {
   task: Task;
   isCompleted: boolean;
   onToggle: () => void;
+  onRemove?: () => void;
+  onMoveUp?: () => void;
+  onMoveDown?: () => void;
 }
 
-const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅"];
+const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅", "🦫", "🐼", "🐨", "🦂", "🐊", "🕷️"];
 
 function randomAnimal() {
   return MINI_ANIMALS[Math.floor(Math.random() * MINI_ANIMALS.length)];
 }
 
-export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps) {
+export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown }: TaskItemProps) {
   const [pressing, setPressing] = useState(false);
   const [miniCelebration, setMiniCelebration] = useState<string | null>(null);
   const wasCompleted = useRef(isCompleted);
@@ -31,9 +34,11 @@ export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps)
   }, [isCompleted]);
 
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onToggle}
+      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onToggle(); }}
       onMouseDown={() => setPressing(true)}
       onMouseUp={() => setPressing(false)}
       onMouseLeave={() => setPressing(false)}
@@ -45,7 +50,7 @@ export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps)
         ${
           isCompleted
             ? "border-green-300 bg-green-50 dark:bg-[rgba(3,46,21,0.3)] dark:border-green-800 opacity-75"
-            : "border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md"
+            : "border-gray-200 dark:border-gray-700 bg-[var(--surface)] hover:border-[var(--accent)] hover:shadow-md"
         }
       `}
     >
@@ -97,7 +102,7 @@ export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps)
       {/* Task label */}
       <span
         className={`
-          text-lg font-medium transition-all duration-300
+          text-lg font-medium transition-all duration-300 flex-1
           ${
             isCompleted
               ? "line-through text-gray-400 dark:text-gray-500"
@@ -108,10 +113,45 @@ export default function TaskItem({ task, isCompleted, onToggle }: TaskItemProps)
         {task.label}
       </span>
 
-      {/* Task number */}
-      <span className="ml-auto text-sm text-gray-400 dark:text-gray-500 font-mono">
-        #{task.order}
-      </span>
-    </button>
+      {/* Reorder + remove controls */}
+      <div className="flex items-center gap-1 ml-auto flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+        {onMoveUp && (
+          <button
+            type="button"
+            onClick={onMoveUp}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500 hover:bg-[var(--surface-dim)] hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+            aria-label="Move up"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
+            </svg>
+          </button>
+        )}
+        {onMoveDown && (
+          <button
+            type="button"
+            onClick={onMoveDown}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500 hover:bg-[var(--surface-dim)] hover:text-gray-600 dark:hover:text-gray-300 transition-colors cursor-pointer"
+            aria-label="Move down"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+        )}
+        {onRemove && (
+          <button
+            type="button"
+            onClick={onRemove}
+            className="w-7 h-7 rounded-lg flex items-center justify-center text-gray-400 dark:text-gray-500 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition-colors cursor-pointer"
+            aria-label="Remove task"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+      </div>
+    </div>
   );
 }

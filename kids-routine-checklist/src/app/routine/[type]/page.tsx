@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
@@ -20,15 +20,23 @@ export default function RoutinePage() {
   const params = useParams();
   const routineType = params.type as RoutineType;
 
-  const { state, loaded, todayRecord, toggleTask, toggleDarkMode, setActiveKid, activeKid } =
+  const { state, loaded, todayRecord, toggleTask, toggleDarkMode, setActiveKid, addTask, removeTask, reorderTask, activeKid } =
     useRoutineStore();
+  const [newTaskLabel, setNewTaskLabel] = useState("");
 
-  // Apply dark mode
+  // Apply dark mode + kid theme
   useEffect(() => {
     if (loaded) {
       document.documentElement.classList.toggle("dark", state.settings.darkMode);
     }
   }, [state.settings.darkMode, loaded]);
+
+  useEffect(() => {
+    if (loaded) {
+      document.documentElement.classList.remove("theme-kid1", "theme-kid2");
+      document.documentElement.classList.add(`theme-${activeKid}`);
+    }
+  }, [activeKid, loaded]);
 
   if (!loaded) {
     return (
@@ -84,16 +92,19 @@ export default function RoutinePage() {
         </Link>
         <button
           onClick={toggleDarkMode}
-          className="w-9 h-9 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-lg hover:scale-110 transition-transform cursor-pointer"
+          className="w-9 h-9 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-lg hover:scale-110 transition-all cursor-pointer"
           aria-label="Toggle dark mode"
         >
           {state.settings.darkMode ? "☀️" : "🌙"}
         </button>
       </div>
 
-      {/* Kid Toggle */}
-      <div className="flex justify-center mb-4">
-        <KidToggle activeKid={activeKid} onToggle={setActiveKid} />
+      {/* Sticky KidToggle + ProgressBar */}
+      <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-2 space-y-2 mb-4">
+        <div className="flex justify-center">
+          <KidToggle activeKid={activeKid} onToggle={setActiveKid} />
+        </div>
+        <ProgressBar completed={completedCount} total={tasks.length} />
       </div>
 
       {/* Header */}
@@ -104,21 +115,49 @@ export default function RoutinePage() {
         </h1>
       </div>
 
-      {/* Sticky progress bar */}
-      <div className="sticky top-0 z-10 bg-[rgba(250,249,246,0.8)] dark:bg-[rgba(15,15,26,0.8)] backdrop-blur-sm py-3 mb-4">
-        <ProgressBar completed={completedCount} total={tasks.length} />
-      </div>
-
       {/* Task list */}
       <div className="space-y-3">
-        {tasks.map((task) => (
+        {tasks.map((task, idx) => (
           <TaskItem
             key={task.id}
             task={task}
             isCompleted={completion.completed.includes(task.id)}
             onToggle={() => toggleTask(routineType, task.id)}
+            onRemove={() => removeTask(routineType, task.id)}
+            onMoveUp={idx > 0 ? () => reorderTask(routineType, task.id, "up") : undefined}
+            onMoveDown={idx < tasks.length - 1 ? () => reorderTask(routineType, task.id, "down") : undefined}
           />
         ))}
+      </div>
+
+      {/* Add task form */}
+      <div className="mt-3 flex items-center gap-2">
+        <input
+          type="text"
+          value={newTaskLabel}
+          onChange={(e) => setNewTaskLabel(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && newTaskLabel.trim()) {
+              addTask(routineType, newTaskLabel);
+              setNewTaskLabel("");
+            }
+          }}
+          placeholder="Add a task…"
+          className="flex-1 p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-[var(--foreground)] text-lg placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:border-[var(--accent)] transition-colors"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            if (newTaskLabel.trim()) {
+              addTask(routineType, newTaskLabel);
+              setNewTaskLabel("");
+            }
+          }}
+          disabled={!newTaskLabel.trim()}
+          className="w-14 h-14 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-2xl font-bold text-gray-400 dark:text-gray-500 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+        >
+          +
+        </button>
       </div>
 
       {/* Completion message */}
