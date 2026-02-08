@@ -20,8 +20,8 @@
   --accent-soft: rgba(129, 140, 248, 0.12);
 }
 
-/* Abram — Blue Snow Tiger */
-.theme-kid1 {
+/* Blue theme */
+.theme-blue {
   --background: #eef2ff;
   --foreground: #1e293b;
   --bg-blur: rgba(238, 242, 255, 0.85);
@@ -30,7 +30,7 @@
   --accent: #3b82f6;
   --accent-soft: rgba(59, 130, 246, 0.10);
 }
-.dark.theme-kid1 {
+.dark.theme-blue {
   --background: #0c1225;
   --foreground: #dbe4ff;
   --bg-blur: rgba(12, 18, 37, 0.85);
@@ -40,8 +40,8 @@
   --accent-soft: rgba(96, 165, 250, 0.12);
 }
 
-/* Ezra — Green Crocodile */
-.theme-kid2 {
+/* Green theme */
+.theme-green {
   --background: #ecfdf5;
   --foreground: #1a2e22;
   --bg-blur: rgba(236, 253, 245, 0.85);
@@ -50,7 +50,7 @@
   --accent: #10b981;
   --accent-soft: rgba(16, 185, 129, 0.10);
 }
-.dark.theme-kid2 {
+.dark.theme-green {
   --background: #0a1a12;
   --foreground: #d1fae5;
   --bg-blur: rgba(10, 26, 18, 0.85);
@@ -58,6 +58,66 @@
   --surface-dim: #15402a;
   --accent: #34d399;
   --accent-soft: rgba(52, 211, 153, 0.12);
+}
+
+/* Purple theme */
+.theme-purple {
+  --background: #f5f3ff;
+  --foreground: #1e1b2e;
+  --bg-blur: rgba(245, 243, 255, 0.85);
+  --surface: #faf8ff;
+  --surface-dim: #e4e0ff;
+  --accent: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.10);
+}
+.dark.theme-purple {
+  --background: #110c25;
+  --foreground: #e4e0ff;
+  --bg-blur: rgba(17, 12, 37, 0.85);
+  --surface: #1c1440;
+  --surface-dim: #2a1e50;
+  --accent: #a78bfa;
+  --accent-soft: rgba(167, 139, 250, 0.12);
+}
+
+/* Orange theme */
+.theme-orange {
+  --background: #fff7ed;
+  --foreground: #2e1e0a;
+  --bg-blur: rgba(255, 247, 237, 0.85);
+  --surface: #fffaf5;
+  --surface-dim: #fed7aa;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.10);
+}
+.dark.theme-orange {
+  --background: #1a0f05;
+  --foreground: #fed7aa;
+  --bg-blur: rgba(26, 15, 5, 0.85);
+  --surface: #2a1a0a;
+  --surface-dim: #402810;
+  --accent: #fb923c;
+  --accent-soft: rgba(251, 146, 60, 0.12);
+}
+
+/* Pink theme */
+.theme-pink {
+  --background: #fdf2f8;
+  --foreground: #2e1a22;
+  --bg-blur: rgba(253, 242, 248, 0.85);
+  --surface: #fff5fa;
+  --surface-dim: #fce7f3;
+  --accent: #ec4899;
+  --accent-soft: rgba(236, 72, 153, 0.10);
+}
+.dark.theme-pink {
+  --background: #1a0a12;
+  --foreground: #fce7f3;
+  --bg-blur: rgba(26, 10, 18, 0.85);
+  --surface: #2a1020;
+  --surface-dim: #401830;
+  --accent: #f472b6;
+  --accent-soft: rgba(244, 114, 182, 0.12);
 }
 
 @theme inline {

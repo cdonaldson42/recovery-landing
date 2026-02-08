@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
 import RoutineCard from "@/components/RoutineCard";
 import StreakCounter from "@/components/StreakCounter";
 import WeeklyDots from "@/components/WeeklyDots";
 import KidToggle from "@/components/KidToggle";
+import KidSettings from "@/components/KidSettings";
+import { THEME_ORDER } from "@/lib/constants";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -23,22 +25,29 @@ function formatDate(): string {
 }
 
 export default function Dashboard() {
-  const { state, loaded, todayRecord, getStreak, toggleDarkMode, setActiveKid, activeKid } =
+  const { state, loaded, todayRecord, getStreak, toggleDarkMode, setActiveKid, activeKid, kids, addKid, removeKid, updateKid } =
     useRoutineStore();
+  const [showSettings, setShowSettings] = useState(false);
 
-  // Apply dark mode + kid theme class to html element
+  // Apply dark mode
   useEffect(() => {
     if (loaded) {
       document.documentElement.classList.toggle("dark", state.settings.darkMode);
     }
   }, [state.settings.darkMode, loaded]);
 
+  // Apply kid theme class
   useEffect(() => {
     if (loaded) {
-      document.documentElement.classList.remove("theme-kid1", "theme-kid2");
-      document.documentElement.classList.add(`theme-${activeKid}`);
+      for (const t of THEME_ORDER) {
+        document.documentElement.classList.remove(`theme-${t}`);
+      }
+      const activeKidObj = kids.find((k) => k.id === activeKid);
+      if (activeKidObj) {
+        document.documentElement.classList.add(`theme-${activeKidObj.theme}`);
+      }
     }
-  }, [activeKid, loaded]);
+  }, [activeKid, kids, loaded]);
 
   if (!loaded) {
     return (
@@ -61,18 +70,27 @@ export default function Dashboard() {
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{formatDate()}</p>
         </div>
-        <button
-          onClick={toggleDarkMode}
-          className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
-          aria-label="Toggle dark mode"
-        >
-          {state.settings.darkMode ? "☀️" : "🌙"}
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowSettings(true)}
+            className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
+            aria-label="Kid settings"
+          >
+            ⚙️
+          </button>
+          <button
+            onClick={toggleDarkMode}
+            className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
+            aria-label="Toggle dark mode"
+          >
+            {state.settings.darkMode ? "☀️" : "🌙"}
+          </button>
+        </div>
       </div>
 
       {/* Kid Toggle */}
       <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-3 mb-6">
-        <KidToggle activeKid={activeKid} onToggle={setActiveKid} />
+        <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} />
       </div>
 
       {/* Streaks */}
@@ -126,6 +144,17 @@ export default function Dashboard() {
           />
         </div>
       </div>
+
+      {/* Kid Settings Modal */}
+      {showSettings && (
+        <KidSettings
+          kids={kids}
+          onAddKid={addKid}
+          onRemoveKid={removeKid}
+          onUpdateKid={updateKid}
+          onClose={() => setShowSettings(false)}
+        />
+      )}
     </main>
   );
 }

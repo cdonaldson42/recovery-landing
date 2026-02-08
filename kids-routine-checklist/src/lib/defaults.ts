@@ -1,4 +1,5 @@
 import { Task, AppState } from "./types";
+import { DEFAULT_KIDS } from "./constants";
 
 export const DEFAULT_MORNING_TASKS: Task[] = [
   { id: "morning-1", label: "Get Dressed", order: 1 },
@@ -27,4 +28,5 @@ export const DEFAULT_STATE: AppState = {
     darkMode: false,
     activeKid: "kid1",
   },
+  kids: DEFAULT_KIDS,
 };

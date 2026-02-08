@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import { AnimalId } from "@/lib/types";
+import { ANIMALS } from "@/lib/constants";
 
 interface CelebrationProps {
   fire: boolean;
+  animalId?: AnimalId;
 }
 
 interface AnimalScene {
@@ -13,26 +16,28 @@ interface AnimalScene {
   label: string;
 }
 
-const ANIMALS: AnimalScene[] = [
-  { emoji: "🦄", name: "unicorn", animation: "animate-fly-across", label: "A unicorn flies across!" },
-  { emoji: "🐹", name: "hamster", animation: "animate-bounce-jump", label: "Hamster party!" },
-  { emoji: "🦎", name: "chameleon", animation: "animate-cheer-spin", label: "Chameleon cheers!" },
-  { emoji: "🐉", name: "dragon", animation: "animate-dragon-fire", label: "Dragon celebration!" },
-  { emoji: "🦏", name: "rhino", animation: "animate-charge-across", label: "Rhino stampede!" },
-  { emoji: "🦅", name: "eagle", animation: "animate-eagle-soar", label: "Eagle soars!" },
-  { emoji: "🦫", name: "capybara", animation: "animate-chill-waddle", label: "Capybara vibes!" },
-  { emoji: "🐼", name: "panda", animation: "animate-tumble-roll", label: "Panda tumble!" },
-  { emoji: "🐨", name: "koala", animation: "animate-climb-wave", label: "Koala says hi!" },
-  { emoji: "🦂", name: "scorpion", animation: "animate-scuttle-snap", label: "Scorpion snap!" },
-  { emoji: "🐊", name: "crocodile", animation: "animate-jaw-charge", label: "Croc attack!" },
-  { emoji: "🕷️", name: "spider", animation: "animate-cute-rappel", label: "Spider drop!" },
-];
+const ALL_ANIMALS: AnimalScene[] = Object.entries(ANIMALS).map(([name, a]) => ({
+  emoji: a.emoji,
+  name,
+  animation: a.celebrationAnimation,
+  label: `${a.label} celebration!`,
+}));
 
 function pickRandom(): AnimalScene {
-  return ANIMALS[Math.floor(Math.random() * ANIMALS.length)];
+  return ALL_ANIMALS[Math.floor(Math.random() * ALL_ANIMALS.length)];
 }
 
-export default function Celebration({ fire }: CelebrationProps) {
+function pickByAnimalId(animalId: AnimalId): AnimalScene {
+  const a = ANIMALS[animalId];
+  return {
+    emoji: a.emoji,
+    name: animalId,
+    animation: a.celebrationAnimation,
+    label: `${a.label} celebration!`,
+  };
+}
+
+export default function Celebration({ fire, animalId }: CelebrationProps) {
   const [scene, setScene] = useState<AnimalScene | null>(null);
   const [sparkles, setSparkles] = useState<{ id: number; x: number; y: number; delay: number; emoji: string }[]>([]);
   const firedRef = useRef(false);
@@ -40,7 +45,7 @@ export default function Celebration({ fire }: CelebrationProps) {
   useEffect(() => {
     if (fire && !firedRef.current) {
       firedRef.current = true;
-      const chosen = pickRandom();
+      const chosen = animalId ? pickByAnimalId(animalId) : pickRandom();
       setScene(chosen);
 
       // Spawn random sparkle emojis
@@ -64,7 +69,7 @@ export default function Celebration({ fire }: CelebrationProps) {
     if (!fire) {
       firedRef.current = false;
     }
-  }, [fire]);
+  }, [fire, animalId]);
 
   if (!scene) return null;
 

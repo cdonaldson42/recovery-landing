@@ -1,13 +1,13 @@
 "use client";
 
-import { DayRecord, KidId, RoutineType, Task } from "@/lib/types";
+import { DayRecord, RoutineType, Task } from "@/lib/types";
 import { getLast7Days } from "@/lib/storage";
 
 interface WeeklyDotsProps {
   history: Record<string, DayRecord>;
   routineType: RoutineType;
   tasks: Task[];
-  activeKid: KidId;
+  activeKid: string;
 }
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];

@@ -1,9 +1,16 @@
-export type KidId = "kid1" | "kid2";
+export type ColorTheme = "blue" | "green" | "purple" | "orange" | "pink";
 
-export const KID_NAMES: Record<KidId, string> = {
-  kid1: "Abram",
-  kid2: "Ezra",
-};
+export type AnimalId =
+  | "tiger" | "unicorn" | "hamster" | "chameleon" | "dragon"
+  | "rhino" | "eagle" | "capybara" | "panda" | "koala"
+  | "scorpion" | "crocodile" | "spider";
+
+export interface Kid {
+  id: string;
+  name: string;
+  animal: AnimalId;
+  theme: ColorTheme;
+}
 
 export interface Task {
   id: string;
@@ -21,14 +28,11 @@ export interface KidDayRecord {
   bedtime: RoutineCompletion;
 }
 
-export interface DayRecord {
-  kid1: KidDayRecord;
-  kid2: KidDayRecord;
-}
+export type DayRecord = Record<string, KidDayRecord>;
 
 export interface Settings {
   darkMode: boolean;
-  activeKid: KidId;
+  activeKid: string;
 }
 
 export interface AppState {
@@ -38,6 +42,7 @@ export interface AppState {
   };
   history: Record<string, DayRecord>;
   settings: Settings;
+  kids: Kid[];
 }
 
 export type RoutineType = "morning" | "bedtime";

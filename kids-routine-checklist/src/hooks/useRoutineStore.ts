@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { AppState, RoutineType, KidDayRecord, KidId, Task } from "@/lib/types";
+import { AppState, RoutineType, KidDayRecord, Kid, AnimalId, ColorTheme, Task } from "@/lib/types";
 import { DEFAULT_STATE } from "@/lib/defaults";
+import { DEFAULT_KIDS, THEME_ORDER } from "@/lib/constants";
 import { loadState, saveState, getToday } from "@/lib/storage";
 
 const EMPTY_KID_DAY: KidDayRecord = {
@@ -10,32 +11,68 @@ const EMPTY_KID_DAY: KidDayRecord = {
   bedtime: { completed: [] },
 };
 
-const EMPTY_DAY = {
-  kid1: { morning: { completed: [] }, bedtime: { completed: [] } },
-  kid2: { morning: { completed: [] }, bedtime: { completed: [] } },
-};
-
-// Migrate old flat { morning, bedtime } records to per-kid format
-function migrateHistory(state: AppState): AppState {
-  let changed = false;
-  const history = { ...state.history };
-  for (const key of Object.keys(history)) {
-    const rec = history[key] as unknown as Record<string, unknown>;
-    if (!("kid1" in rec)) {
-      changed = true;
-      const oldMorning = (rec["morning"] as KidDayRecord["morning"]) ?? { completed: [] };
-      const oldBedtime = (rec["bedtime"] as KidDayRecord["bedtime"]) ?? { completed: [] };
-      // Old format — move existing data to kid1, give kid2 a clean slate
-      history[key] = {
-        kid1: { morning: oldMorning, bedtime: oldBedtime },
-        kid2: { morning: { completed: [] }, bedtime: { completed: [] } },
-      };
-    }
+function emptyDayForKids(kids: Kid[]): Record<string, KidDayRecord> {
+  const day: Record<string, KidDayRecord> = {};
+  for (const kid of kids) {
+    day[kid.id] = { morning: { completed: [] }, bedtime: { completed: [] } };
   }
-  return changed ? { ...state, history } : state;
+  return day;
 }
 
-// Remove completed task IDs that no longer exist in the current task lists
+function migrateState(state: AppState): AppState {
+  let s = { ...state };
+
+  // 1. Inject kids if missing
+  if (!s.kids || s.kids.length === 0) {
+    s = { ...s, kids: DEFAULT_KIDS };
+  }
+
+  // 2. Migrate flat history records and ensure all kids have entries
+  let historyChanged = false;
+  const history = { ...s.history };
+  for (const key of Object.keys(history)) {
+    const rec = history[key] as unknown as Record<string, unknown>;
+
+    // Flat format: has "morning"/"bedtime" at top level (no kid keys)
+    if ("morning" in rec && !s.kids.some((k) => k.id in rec)) {
+      historyChanged = true;
+      const oldMorning = (rec["morning"] as KidDayRecord["morning"]) ?? { completed: [] };
+      const oldBedtime = (rec["bedtime"] as KidDayRecord["bedtime"]) ?? { completed: [] };
+      const newRec: Record<string, KidDayRecord> = {};
+      for (let i = 0; i < s.kids.length; i++) {
+        newRec[s.kids[i].id] = i === 0
+          ? { morning: oldMorning, bedtime: oldBedtime }
+          : { morning: { completed: [] }, bedtime: { completed: [] } };
+      }
+      history[key] = newRec;
+    } else {
+      // Ensure all current kids have entries in this day
+      let dayChanged = false;
+      const dayRec = { ...history[key] } as Record<string, KidDayRecord>;
+      for (const kid of s.kids) {
+        if (!(kid.id in dayRec)) {
+          dayChanged = true;
+          dayRec[kid.id] = { morning: { completed: [] }, bedtime: { completed: [] } };
+        }
+      }
+      if (dayChanged) {
+        historyChanged = true;
+        history[key] = dayRec;
+      }
+    }
+  }
+  if (historyChanged) {
+    s = { ...s, history };
+  }
+
+  // 3. Validate activeKid
+  if (!s.kids.some((k) => k.id === s.settings.activeKid)) {
+    s = { ...s, settings: { ...s.settings, activeKid: s.kids[0].id } };
+  }
+
+  return s;
+}
+
 function pruneStaleCompletions(state: AppState): AppState {
   const morningIds = new Set(state.routines.morning.map((t) => t.id));
   const bedtimeIds = new Set(state.routines.bedtime.map((t) => t.id));
@@ -44,8 +81,8 @@ function pruneStaleCompletions(state: AppState): AppState {
 
   for (const key of Object.keys(history)) {
     const dayRec = history[key];
-    for (const kid of ["kid1", "kid2"] as const) {
-      const kidRec = dayRec[kid];
+    for (const kid of state.kids) {
+      const kidRec = dayRec[kid.id];
       if (!kidRec) continue;
       const cleanMorning = kidRec.morning.completed.filter((id) => morningIds.has(id));
       const cleanBedtime = kidRec.bedtime.completed.filter((id) => bedtimeIds.has(id));
@@ -53,7 +90,7 @@ function pruneStaleCompletions(state: AppState): AppState {
         changed = true;
         history[key] = {
           ...dayRec,
-          [kid]: {
+          [kid.id]: {
             morning: { ...kidRec.morning, completed: cleanMorning },
             bedtime: { ...kidRec.bedtime, completed: cleanBedtime },
           },
@@ -66,12 +103,25 @@ function pruneStaleCompletions(state: AppState): AppState {
 
 function ensureToday(state: AppState): AppState {
   const today = getToday();
-  if (state.history[today]) return state;
+  const existing = state.history[today];
+  if (existing) {
+    // Patch in any newly-added kids missing from today's record
+    let patched = false;
+    const dayRec = { ...existing };
+    for (const kid of state.kids) {
+      if (!(kid.id in dayRec)) {
+        patched = true;
+        dayRec[kid.id] = { morning: { completed: [] }, bedtime: { completed: [] } };
+      }
+    }
+    if (!patched) return state;
+    return { ...state, history: { ...state.history, [today]: dayRec } };
+  }
   return {
     ...state,
     history: {
       ...state.history,
-      [today]: { ...EMPTY_DAY },
+      [today]: emptyDayForKids(state.kids),
     },
   };
 }
@@ -80,14 +130,14 @@ export function useRoutineStore() {
   const [state, setState] = useState<AppState>(DEFAULT_STATE);
   const [loaded, setLoaded] = useState(false);
 
-  // Load from localStorage on mount (always use latest routines from code)
+  // Load from localStorage on mount
   useEffect(() => {
     const raw = loadState();
     const withRoutines = {
       ...raw,
       routines: raw.routines?.morning?.length ? raw.routines : DEFAULT_STATE.routines,
     };
-    const migrated = migrateHistory(withRoutines);
+    const migrated = migrateState(withRoutines);
     const cleaned = pruneStaleCompletions(migrated);
     const s = ensureToday(cleaned);
     setState(s);
@@ -101,6 +151,7 @@ export function useRoutineStore() {
 
   const today = getToday();
   const activeKid = state.settings.activeKid;
+  const kids = state.kids;
 
   const todayRecord: KidDayRecord = state.history[today]?.[activeKid] ?? EMPTY_KID_DAY;
 
@@ -109,7 +160,7 @@ export function useRoutineStore() {
       setState((prev) => {
         const s = ensureToday(prev);
         const kid = s.settings.activeKid;
-        const dayRec = s.history[today] ?? EMPTY_DAY;
+        const dayRec = s.history[today] ?? emptyDayForKids(s.kids);
         const kidRec = dayRec[kid] ?? EMPTY_KID_DAY;
         const routine = kidRec[routineType];
         const isCompleted = routine.completed.includes(taskId);
@@ -151,7 +202,7 @@ export function useRoutineStore() {
     }));
   }, []);
 
-  const setActiveKid = useCallback((kidId: KidId) => {
+  const setActiveKid = useCallback((kidId: string) => {
     setState((prev) => ({
       ...prev,
       settings: { ...prev.settings, activeKid: kidId },
@@ -206,6 +257,64 @@ export function useRoutineStore() {
     });
   }, []);
 
+  const addKid = useCallback((name: string, animal: AnimalId, chosenTheme?: ColorTheme) => {
+    setState((prev) => {
+      if (prev.kids.length >= 5) return prev;
+      const usedThemes = new Set(prev.kids.map((k) => k.theme));
+      const theme = chosenTheme ?? THEME_ORDER.find((t) => !usedThemes.has(t)) ?? THEME_ORDER[0];
+      const newKid: Kid = {
+        id: `kid-${Date.now()}`,
+        name,
+        animal,
+        theme,
+      };
+      const newKids = [...prev.kids, newKid];
+
+      // Add empty records to all history days
+      const history = { ...prev.history };
+      for (const key of Object.keys(history)) {
+        history[key] = {
+          ...history[key],
+          [newKid.id]: { morning: { completed: [] }, bedtime: { completed: [] } },
+        };
+      }
+
+      return { ...prev, kids: newKids, history };
+    });
+  }, []);
+
+  const removeKid = useCallback((kidId: string) => {
+    setState((prev) => {
+      if (prev.kids.length <= 1) return prev;
+      const newKids = prev.kids.filter((k) => k.id !== kidId);
+
+      // Clean history
+      const history = { ...prev.history };
+      for (const key of Object.keys(history)) {
+        const dayRec = { ...history[key] };
+        delete dayRec[kidId];
+        history[key] = dayRec;
+      }
+
+      // Switch activeKid if removed
+      const activeKid = prev.settings.activeKid === kidId ? newKids[0].id : prev.settings.activeKid;
+
+      return {
+        ...prev,
+        kids: newKids,
+        history,
+        settings: { ...prev.settings, activeKid },
+      };
+    });
+  }, []);
+
+  const updateKid = useCallback((kidId: string, updates: Partial<Pick<Kid, "name" | "animal" | "theme">>) => {
+    setState((prev) => ({
+      ...prev,
+      kids: prev.kids.map((k) => (k.id === kidId ? { ...k, ...updates } : k)),
+    }));
+  }, []);
+
   // Calculate streak for a routine type (scoped to active kid)
   const getStreak = useCallback(
     (routineType: RoutineType): number => {
@@ -253,5 +362,9 @@ export function useRoutineStore() {
     reorderTask,
     getStreak,
     activeKid,
+    kids,
+    addKid,
+    removeKid,
+    updateKid,
   };
 }

@@ -10,6 +10,7 @@ interface TaskItemProps {
   onRemove?: () => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
+  animalEmoji?: string;
 }
 
 const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅", "🦫", "🐼", "🐨", "🦂", "🐊", "🕷️"];
@@ -18,14 +19,14 @@ function randomAnimal() {
   return MINI_ANIMALS[Math.floor(Math.random() * MINI_ANIMALS.length)];
 }
 
-export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown }: TaskItemProps) {
+export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown, animalEmoji }: TaskItemProps) {
   const [pressing, setPressing] = useState(false);
   const [miniCelebration, setMiniCelebration] = useState<string | null>(null);
   const wasCompleted = useRef(isCompleted);
 
   useEffect(() => {
     if (isCompleted && !wasCompleted.current) {
-      const animal = randomAnimal();
+      const animal = animalEmoji ?? randomAnimal();
       setMiniCelebration(animal);
       const timer = setTimeout(() => setMiniCelebration(null), 1200);
       return () => clearTimeout(timer);

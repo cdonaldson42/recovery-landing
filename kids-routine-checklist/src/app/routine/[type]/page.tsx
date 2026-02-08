@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
 import { RoutineType } from "@/lib/types";
+import { ANIMALS, THEME_ORDER } from "@/lib/constants";
 import TaskItem from "@/components/TaskItem";
 import ProgressBar from "@/components/ProgressBar";
 import Confetti from "@/components/Confetti";
@@ -20,23 +21,30 @@ export default function RoutinePage() {
   const params = useParams();
   const routineType = params.type as RoutineType;
 
-  const { state, loaded, todayRecord, toggleTask, toggleDarkMode, setActiveKid, addTask, removeTask, reorderTask, activeKid } =
+  const { state, loaded, todayRecord, toggleTask, toggleDarkMode, setActiveKid, addTask, removeTask, reorderTask, activeKid, kids } =
     useRoutineStore();
   const [newTaskLabel, setNewTaskLabel] = useState("");
 
-  // Apply dark mode + kid theme
+  const activeKidObj = kids.find((k) => k.id === activeKid);
+
+  // Apply dark mode
   useEffect(() => {
     if (loaded) {
       document.documentElement.classList.toggle("dark", state.settings.darkMode);
     }
   }, [state.settings.darkMode, loaded]);
 
+  // Apply kid theme
   useEffect(() => {
     if (loaded) {
-      document.documentElement.classList.remove("theme-kid1", "theme-kid2");
-      document.documentElement.classList.add(`theme-${activeKid}`);
+      for (const t of THEME_ORDER) {
+        document.documentElement.classList.remove(`theme-${t}`);
+      }
+      if (activeKidObj) {
+        document.documentElement.classList.add(`theme-${activeKidObj.theme}`);
+      }
     }
-  }, [activeKid, loaded]);
+  }, [activeKid, activeKidObj, loaded]);
 
   if (!loaded) {
     return (
@@ -63,11 +71,12 @@ export default function RoutinePage() {
   const completion = todayRecord[routineType];
   const completedCount = completion.completed.length;
   const allDone = completedCount === tasks.length;
+  const kidAnimalEmoji = activeKidObj ? ANIMALS[activeKidObj.animal].emoji : undefined;
 
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-20">
       <Confetti fire={allDone} />
-      <Celebration fire={allDone} />
+      <Celebration fire={allDone} animalId={activeKidObj?.animal} />
 
       {/* Top nav */}
       <div className="flex items-center justify-between mb-4">
@@ -102,7 +111,7 @@ export default function RoutinePage() {
       {/* Sticky KidToggle + ProgressBar */}
       <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-2 space-y-2 mb-4">
         <div className="flex justify-center">
-          <KidToggle activeKid={activeKid} onToggle={setActiveKid} />
+          <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} />
         </div>
         <ProgressBar completed={completedCount} total={tasks.length} />
       </div>
@@ -126,6 +135,7 @@ export default function RoutinePage() {
             onRemove={() => removeTask(routineType, task.id)}
             onMoveUp={idx > 0 ? () => reorderTask(routineType, task.id, "up") : undefined}
             onMoveDown={idx < tasks.length - 1 ? () => reorderTask(routineType, task.id, "down") : undefined}
+            animalEmoji={kidAnimalEmoji}
           />
         ))}
       </div>
