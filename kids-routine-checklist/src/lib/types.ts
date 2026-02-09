@@ -3,7 +3,8 @@ export type ColorTheme = "blue" | "green" | "purple" | "orange" | "pink";
 export type AnimalId =
   | "tiger" | "unicorn" | "hamster" | "chameleon" | "dragon"
   | "rhino" | "eagle" | "capybara" | "panda" | "koala"
-  | "scorpion" | "crocodile" | "spider";
+  | "scorpion" | "crocodile" | "spider"
+  | "crab" | "shark" | "chipmunk" | "squirrel";
 
 export interface Kid {
   id: string;

@@ -13,7 +13,7 @@ interface TaskItemProps {
   animalEmoji?: string;
 }
 
-const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅", "🦫", "🐼", "🐨", "🦂", "🐊", "🕷️"];
+const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅", "🦫", "🐼", "🐨", "🦂", "🐊", "🕷️", "🦀", "🦈", "🐿️"];
 
 function randomAnimal() {
   return MINI_ANIMALS[Math.floor(Math.random() * MINI_ANIMALS.length)];

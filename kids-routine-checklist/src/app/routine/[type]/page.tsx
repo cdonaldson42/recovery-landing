@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
 import { RoutineType } from "@/lib/types";
-import { ANIMALS, THEME_ORDER } from "@/lib/constants";
+import { THEME_ORDER } from "@/lib/constants";
 import TaskItem from "@/components/TaskItem";
 import ProgressBar from "@/components/ProgressBar";
 import Confetti from "@/components/Confetti";
@@ -71,8 +71,6 @@ export default function RoutinePage() {
   const completion = todayRecord[routineType];
   const completedCount = completion.completed.length;
   const allDone = completedCount === tasks.length;
-  const kidAnimalEmoji = activeKidObj ? ANIMALS[activeKidObj.animal].emoji : undefined;
-
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-20">
       <Confetti fire={allDone} />
@@ -135,7 +133,6 @@ export default function RoutinePage() {
             onRemove={() => removeTask(routineType, task.id)}
             onMoveUp={idx > 0 ? () => reorderTask(routineType, task.id, "up") : undefined}
             onMoveDown={idx < tasks.length - 1 ? () => reorderTask(routineType, task.id, "down") : undefined}
-            animalEmoji={kidAnimalEmoji}
           />
         ))}
       </div>
@@ -153,7 +150,7 @@ export default function RoutinePage() {
             }
           }}
           placeholder="Add a task…"
-          className="flex-1 p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-[var(--foreground)] text-lg placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:border-[var(--accent)] transition-colors"
+          className="flex-1 p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-gray-900 dark:text-white text-lg placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:border-[var(--accent)] transition-colors"
         />
         <button
           type="button"

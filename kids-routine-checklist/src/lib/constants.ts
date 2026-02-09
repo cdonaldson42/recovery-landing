@@ -14,6 +14,10 @@ export const ANIMALS: Record<AnimalId, { emoji: string; label: string; celebrati
   scorpion:   { emoji: "🦂", label: "Scorpion",    celebrationAnimation: "animate-scuttle-snap" },
   crocodile:  { emoji: "🐊", label: "Crocodile",   celebrationAnimation: "animate-jaw-charge" },
   spider:     { emoji: "🕷️", label: "Spider",      celebrationAnimation: "animate-cute-rappel" },
+  crab:       { emoji: "🦀", label: "Crab",        celebrationAnimation: "animate-scuttle-snap" },
+  shark:      { emoji: "🦈", label: "Shark",       celebrationAnimation: "animate-jaw-charge" },
+  chipmunk:   { emoji: "🐿️", label: "Chipmunk",    celebrationAnimation: "animate-bounce-jump" },
+  squirrel:   { emoji: "🐿️", label: "Squirrel",    celebrationAnimation: "animate-climb-wave" },
 };
 
 export const THEMES: Record<ColorTheme, { label: string; activeClasses: string; inactiveHoverColor: string }> = {
