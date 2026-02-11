@@ -74,7 +74,7 @@ export default function RoutinePage() {
   return (
     <main className="max-w-lg mx-auto px-4 py-6 pb-20">
       <Confetti fire={allDone} />
-      <Celebration fire={allDone} animalId={activeKidObj?.animal} />
+      <Celebration fire={allDone} />
 
       {/* Top nav */}
       <div className="flex items-center justify-between mb-4">
