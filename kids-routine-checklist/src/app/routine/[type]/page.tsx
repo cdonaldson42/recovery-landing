@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
 import { RoutineType } from "@/lib/types";
@@ -19,9 +19,10 @@ const ROUTINE_META: Record<RoutineType, { emoji: string; title: string }> = {
 
 export default function RoutinePage() {
   const params = useParams();
+  const router = useRouter();
   const routineType = params.type as RoutineType;
 
-  const { state, loaded, todayRecord, toggleTask, toggleDarkMode, setActiveKid, addTask, removeTask, reorderTask, activeKid, kids } =
+  const { state, loaded, needsOnboarding, todayRecord, toggleTask, toggleDarkMode, setActiveKid, addTask, removeTask, reorderTask, activeKid, kids } =
     useRoutineStore();
   const [newTaskLabel, setNewTaskLabel] = useState("");
 
@@ -46,7 +47,14 @@ export default function RoutinePage() {
     }
   }, [activeKid, activeKidObj, loaded]);
 
-  if (!loaded) {
+  // Redirect to onboarding if no kids set up
+  useEffect(() => {
+    if (loaded && needsOnboarding) {
+      router.replace("/");
+    }
+  }, [loaded, needsOnboarding, router]);
+
+  if (!loaded || needsOnboarding) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-2xl animate-pulse">Loading...</div>

@@ -1,4 +1,4 @@
-import type { AnimalId, ColorTheme, Kid } from "./types";
+import type { AnimalId, ColorTheme } from "./types";
 
 export const ANIMALS: Record<AnimalId, { emoji: string; label: string; celebrationAnimation: string }> = {
   tiger:      { emoji: "🐅", label: "Tiger",      celebrationAnimation: "animate-charge-across" },
@@ -50,7 +50,3 @@ export const THEMES: Record<ColorTheme, { label: string; activeClasses: string; 
 
 export const THEME_ORDER: ColorTheme[] = ["blue", "green", "purple", "orange", "pink"];
 
-export const DEFAULT_KIDS: Kid[] = [
-  { id: "kid1", name: "Abram", animal: "tiger", theme: "blue" },
-  { id: "kid2", name: "Ezra", animal: "crocodile", theme: "green" },
-];

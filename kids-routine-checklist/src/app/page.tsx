@@ -7,6 +7,7 @@ import StreakCounter from "@/components/StreakCounter";
 import WeeklyDots from "@/components/WeeklyDots";
 import KidToggle from "@/components/KidToggle";
 import KidSettings from "@/components/KidSettings";
+import Onboarding from "@/components/Onboarding";
 import { THEME_ORDER } from "@/lib/constants";
 
 function getGreeting(): string {
@@ -25,7 +26,7 @@ function formatDate(): string {
 }
 
 export default function Dashboard() {
-  const { state, loaded, todayRecord, getStreak, toggleDarkMode, setActiveKid, activeKid, kids, addKid, removeKid, updateKid } =
+  const { state, loaded, needsOnboarding, completeOnboarding, todayRecord, getStreak, toggleDarkMode, setActiveKid, activeKid, kids, addKid, removeKid, updateKid } =
     useRoutineStore();
   const [showSettings, setShowSettings] = useState(false);
 
@@ -55,6 +56,10 @@ export default function Dashboard() {
         <div className="text-2xl animate-pulse">Loading...</div>
       </div>
     );
+  }
+
+  if (needsOnboarding) {
+    return <Onboarding onComplete={completeOnboarding} />;
   }
 
   const morningStreak = getStreak("morning");

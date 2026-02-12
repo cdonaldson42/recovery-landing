@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import { AppState, RoutineType, KidDayRecord, Kid, AnimalId, ColorTheme, Task } from "@/lib/types";
 import { DEFAULT_STATE } from "@/lib/defaults";
-import { DEFAULT_KIDS, THEME_ORDER } from "@/lib/constants";
-import { loadState, saveState, getToday } from "@/lib/storage";
+import { THEME_ORDER } from "@/lib/constants";
+import { loadState, saveState, getToday, hasStoredState } from "@/lib/storage";
 
 const EMPTY_KID_DAY: KidDayRecord = {
   morning: { completed: [] },
@@ -22,52 +22,49 @@ function emptyDayForKids(kids: Kid[]): Record<string, KidDayRecord> {
 function migrateState(state: AppState): AppState {
   let s = { ...state };
 
-  // 1. Inject kids if missing
-  if (!s.kids || s.kids.length === 0) {
-    s = { ...s, kids: DEFAULT_KIDS };
-  }
+  // Migrate flat history records and ensure all kids have entries
+  if (s.kids.length > 0) {
+    let historyChanged = false;
+    const history = { ...s.history };
+    for (const key of Object.keys(history)) {
+      const rec = history[key] as unknown as Record<string, unknown>;
 
-  // 2. Migrate flat history records and ensure all kids have entries
-  let historyChanged = false;
-  const history = { ...s.history };
-  for (const key of Object.keys(history)) {
-    const rec = history[key] as unknown as Record<string, unknown>;
-
-    // Flat format: has "morning"/"bedtime" at top level (no kid keys)
-    if ("morning" in rec && !s.kids.some((k) => k.id in rec)) {
-      historyChanged = true;
-      const oldMorning = (rec["morning"] as KidDayRecord["morning"]) ?? { completed: [] };
-      const oldBedtime = (rec["bedtime"] as KidDayRecord["bedtime"]) ?? { completed: [] };
-      const newRec: Record<string, KidDayRecord> = {};
-      for (let i = 0; i < s.kids.length; i++) {
-        newRec[s.kids[i].id] = i === 0
-          ? { morning: oldMorning, bedtime: oldBedtime }
-          : { morning: { completed: [] }, bedtime: { completed: [] } };
-      }
-      history[key] = newRec;
-    } else {
-      // Ensure all current kids have entries in this day
-      let dayChanged = false;
-      const dayRec = { ...history[key] } as Record<string, KidDayRecord>;
-      for (const kid of s.kids) {
-        if (!(kid.id in dayRec)) {
-          dayChanged = true;
-          dayRec[kid.id] = { morning: { completed: [] }, bedtime: { completed: [] } };
+      // Flat format: has "morning"/"bedtime" at top level (no kid keys)
+      if ("morning" in rec && !s.kids.some((k) => k.id in rec)) {
+        historyChanged = true;
+        const oldMorning = (rec["morning"] as KidDayRecord["morning"]) ?? { completed: [] };
+        const oldBedtime = (rec["bedtime"] as KidDayRecord["bedtime"]) ?? { completed: [] };
+        const newRec: Record<string, KidDayRecord> = {};
+        for (let i = 0; i < s.kids.length; i++) {
+          newRec[s.kids[i].id] = i === 0
+            ? { morning: oldMorning, bedtime: oldBedtime }
+            : { morning: { completed: [] }, bedtime: { completed: [] } };
+        }
+        history[key] = newRec;
+      } else {
+        // Ensure all current kids have entries in this day
+        let dayChanged = false;
+        const dayRec = { ...history[key] } as Record<string, KidDayRecord>;
+        for (const kid of s.kids) {
+          if (!(kid.id in dayRec)) {
+            dayChanged = true;
+            dayRec[kid.id] = { morning: { completed: [] }, bedtime: { completed: [] } };
+          }
+        }
+        if (dayChanged) {
+          historyChanged = true;
+          history[key] = dayRec;
         }
       }
-      if (dayChanged) {
-        historyChanged = true;
-        history[key] = dayRec;
-      }
     }
-  }
-  if (historyChanged) {
-    s = { ...s, history };
-  }
+    if (historyChanged) {
+      s = { ...s, history };
+    }
 
-  // 3. Validate activeKid
-  if (!s.kids.some((k) => k.id === s.settings.activeKid)) {
-    s = { ...s, settings: { ...s.settings, activeKid: s.kids[0].id } };
+    // Validate activeKid
+    if (!s.kids.some((k) => k.id === s.settings.activeKid)) {
+      s = { ...s, settings: { ...s.settings, activeKid: s.kids[0].id } };
+    }
   }
 
   return s;
@@ -129,10 +126,21 @@ function ensureToday(state: AppState): AppState {
 export function useRoutineStore() {
   const [state, setState] = useState<AppState>(DEFAULT_STATE);
   const [loaded, setLoaded] = useState(false);
+  const [needsOnboarding, setNeedsOnboarding] = useState(false);
 
   // Load from localStorage on mount
   useEffect(() => {
+    const hasStored = hasStoredState();
     const raw = loadState();
+
+    // New visitor (no stored data) or stored data with empty kids → onboarding
+    if (!hasStored || !raw.kids || raw.kids.length === 0) {
+      setState(DEFAULT_STATE);
+      setNeedsOnboarding(true);
+      setLoaded(true);
+      return;
+    }
+
     const withRoutines = {
       ...raw,
       routines: raw.routines?.morning?.length ? raw.routines : DEFAULT_STATE.routines,
@@ -144,16 +152,28 @@ export function useRoutineStore() {
     setLoaded(true);
   }, []);
 
-  // Persist on every change (after initial load)
+  // Persist on every change (after initial load, skip if onboarding)
   useEffect(() => {
-    if (loaded) saveState(state);
-  }, [state, loaded]);
+    if (loaded && !needsOnboarding) saveState(state);
+  }, [state, loaded, needsOnboarding]);
 
   const today = getToday();
   const activeKid = state.settings.activeKid;
   const kids = state.kids;
 
   const todayRecord: KidDayRecord = state.history[today]?.[activeKid] ?? EMPTY_KID_DAY;
+
+  const completeOnboarding = useCallback((onboardingKids: Kid[]) => {
+    const newState: AppState = {
+      ...DEFAULT_STATE,
+      kids: onboardingKids,
+      settings: { ...DEFAULT_STATE.settings, activeKid: onboardingKids[0].id },
+    };
+    const withToday = ensureToday(newState);
+    setState(withToday);
+    setNeedsOnboarding(false);
+    saveState(withToday);
+  }, []);
 
   const toggleTask = useCallback(
     (routineType: RoutineType, taskId: string) => {
@@ -353,6 +373,8 @@ export function useRoutineStore() {
   return {
     state,
     loaded,
+    needsOnboarding,
+    completeOnboarding,
     todayRecord,
     toggleTask,
     toggleDarkMode,
