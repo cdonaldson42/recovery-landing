@@ -9,6 +9,7 @@ import KidToggle from "@/components/KidToggle";
 import KidSettings from "@/components/KidSettings";
 import Onboarding from "@/components/Onboarding";
 import { THEME_ORDER } from "@/lib/constants";
+import { getTodayTheme } from "@/lib/dailyTheme";
 
 function getGreeting(): string {
   const hour = new Date().getHours();
@@ -74,6 +75,9 @@ export default function Dashboard() {
             {getGreeting()}! 👋
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">{formatDate()}</p>
+          <span className="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded-full bg-[var(--accent)]/15 text-xs font-semibold text-[var(--accent)]">
+            {getTodayTheme().icon} {getTodayTheme().name}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <button

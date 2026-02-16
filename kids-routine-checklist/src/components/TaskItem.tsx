@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Task } from "@/lib/types";
+import { getRandomThemeAnimal } from "@/lib/dailyTheme";
 
 interface TaskItemProps {
   task: Task;
@@ -10,23 +11,16 @@ interface TaskItemProps {
   onRemove?: () => void;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
-  animalEmoji?: string;
 }
 
-const MINI_ANIMALS = ["🦄", "🐹", "🦎", "🐉", "🦏", "🦅", "🦫", "🐼", "🐨", "🦂", "🐊", "🕷️", "🦀", "🦈", "🐿️"];
-
-function randomAnimal() {
-  return MINI_ANIMALS[Math.floor(Math.random() * MINI_ANIMALS.length)];
-}
-
-export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown, animalEmoji }: TaskItemProps) {
+export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown }: TaskItemProps) {
   const [pressing, setPressing] = useState(false);
   const [miniCelebration, setMiniCelebration] = useState<string | null>(null);
   const wasCompleted = useRef(isCompleted);
 
   useEffect(() => {
     if (isCompleted && !wasCompleted.current) {
-      const animal = animalEmoji ?? randomAnimal();
+      const animal = getRandomThemeAnimal();
       setMiniCelebration(animal);
       const timer = setTimeout(() => setMiniCelebration(null), 1200);
       return () => clearTimeout(timer);

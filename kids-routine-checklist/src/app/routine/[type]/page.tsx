@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRoutineStore } from "@/hooks/useRoutineStore";
 import { RoutineType } from "@/lib/types";
 import { THEME_ORDER } from "@/lib/constants";
+import { getTodayTheme } from "@/lib/dailyTheme";
 import TaskItem from "@/components/TaskItem";
 import ProgressBar from "@/components/ProgressBar";
 import Confetti from "@/components/Confetti";
@@ -120,6 +121,13 @@ export default function RoutinePage() {
           <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} />
         </div>
         <ProgressBar completed={completedCount} total={tasks.length} />
+      </div>
+
+      {/* Daily theme banner */}
+      <div className="flex justify-center mb-4">
+        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent)]/15 text-sm font-semibold text-[var(--accent)] dark:text-[var(--accent)]">
+          {getTodayTheme().icon} {getTodayTheme().name}
+        </span>
       </div>
 
       {/* Header */}
