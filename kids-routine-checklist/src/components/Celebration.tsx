@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { getTodayTheme, getRandomThemeAnimal } from "@/lib/dailyTheme";
+import { getTodayTheme, getRandomThemeAnimal, type ThemeAnimal } from "@/lib/dailyTheme";
+import LottieAnimal from "./LottieAnimal";
 
 const CELEBRATION_ANIMATIONS = [
   "animate-charge-across",
@@ -27,7 +28,7 @@ interface CelebrationProps {
 }
 
 interface AnimalScene {
-  emojis: [string, string, string];
+  animals: [ThemeAnimal, ThemeAnimal, ThemeAnimal];
   animation: string;
   label: string;
 }
@@ -42,7 +43,7 @@ export default function Celebration({ fire }: CelebrationProps) {
       firedRef.current = true;
       const theme = getTodayTheme();
       setScene({
-        emojis: [getRandomThemeAnimal(), getRandomThemeAnimal(), getRandomThemeAnimal()],
+        animals: [getRandomThemeAnimal(), getRandomThemeAnimal(), getRandomThemeAnimal()],
         animation: pickRandomAnimation(),
         label: `${theme.icon} ${theme.name} celebration!`,
       });
@@ -78,18 +79,33 @@ export default function Celebration({ fire }: CelebrationProps) {
       <div className="absolute inset-0 animate-celebration-flash" />
 
       {/* Main animal */}
-      <div className={`absolute text-[100px] ${scene.animation}`}>
-        {scene.emojis[0]}
+      <div className={`absolute ${scene.animation}`}>
+        <LottieAnimal
+          src={scene.animals[0].lottieSrc}
+          fallbackEmoji={scene.animals[0].emoji}
+          className="w-[100px] h-[100px] text-[100px]"
+          speed={1.5}
+        />
       </div>
 
       {/* Second animal trailing behind (slightly smaller) */}
-      <div className={`absolute text-[70px] ${scene.animation}`} style={{ animationDelay: "0.3s" }}>
-        {scene.emojis[1]}
+      <div className={`absolute ${scene.animation}`} style={{ animationDelay: "0.3s" }}>
+        <LottieAnimal
+          src={scene.animals[1].lottieSrc}
+          fallbackEmoji={scene.animals[1].emoji}
+          className="w-[70px] h-[70px] text-[70px]"
+          speed={1.5}
+        />
       </div>
 
       {/* Third tiny one */}
-      <div className={`absolute text-[50px] ${scene.animation}`} style={{ animationDelay: "0.6s" }}>
-        {scene.emojis[2]}
+      <div className={`absolute ${scene.animation}`} style={{ animationDelay: "0.6s" }}>
+        <LottieAnimal
+          src={scene.animals[2].lottieSrc}
+          fallbackEmoji={scene.animals[2].emoji}
+          className="w-[50px] h-[50px] text-[50px]"
+          speed={1.5}
+        />
       </div>
 
       {/* Sparkle explosion */}
@@ -110,7 +126,15 @@ export default function Celebration({ fire }: CelebrationProps) {
       {/* Big shaking celebration text */}
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="animate-mega-pop text-center">
-          <div className="text-[80px] animate-wiggle-shake">{scene.emojis[0]}</div>
+          <div className="animate-wiggle-shake">
+            <LottieAnimal
+              src={scene.animals[0].lottieSrc}
+              fallbackEmoji={scene.animals[0].emoji}
+              className="w-[80px] h-[80px] text-[80px] mx-auto"
+              loop
+              speed={1}
+            />
+          </div>
           <div className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-600 animate-wiggle-shake mt-2">
             {scene.label}
           </div>

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Task } from "@/lib/types";
-import { getRandomThemeAnimal } from "@/lib/dailyTheme";
+import { getRandomThemeEmoji } from "@/lib/dailyTheme";
 
 interface TaskItemProps {
   task: Task;
@@ -20,7 +20,7 @@ export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMove
 
   useEffect(() => {
     if (isCompleted && !wasCompleted.current) {
-      const animal = getRandomThemeAnimal();
+      const animal = getRandomThemeEmoji();
       setMiniCelebration(animal);
       const timer = setTimeout(() => setMiniCelebration(null), 1200);
       return () => clearTimeout(timer);
