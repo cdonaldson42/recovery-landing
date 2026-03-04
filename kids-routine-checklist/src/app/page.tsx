@@ -54,7 +54,7 @@ export default function Dashboard() {
   if (!loaded) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl animate-pulse">Loading...</div>
+        <div className="text-2xl font-bold animate-pulse">Loading...</div>
       </div>
     );
   }
@@ -67,29 +67,32 @@ export default function Dashboard() {
   const bedtimeStreak = getStreak("bedtime");
 
   return (
-    <main className="max-w-lg mx-auto px-4 py-8 pb-20">
+    <main className="relative max-w-lg mx-auto px-5 py-10 pb-20">
+      {/* Background dots */}
+      <div className="fixed inset-0 bg-playful-dots pointer-events-none" />
+
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="relative flex items-center justify-between mb-4">
         <div>
-          <h1 className="text-3xl font-bold dark:text-white">
+          <h1 className="text-3xl font-black dark:text-white">
             {getGreeting()}! 👋
           </h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">{formatDate()}</p>
-          <span className="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded-full bg-[var(--accent)]/15 text-xs font-semibold text-[var(--accent)]">
+          <p className="text-gray-500 dark:text-gray-400 mt-1 font-semibold">{formatDate()}</p>
+          <span className="inline-flex items-center gap-1 mt-2 px-3 py-1 rounded-full bg-[var(--accent-soft)] text-xs font-black text-[var(--accent)]">
             {getTodayTheme().icon} {getTodayTheme().name}
           </span>
         </div>
         <div className="flex items-center gap-2">
           <button
             onClick={() => setShowSettings(true)}
-            className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
+            className="w-12 h-12 rounded-2xl bg-[var(--surface-dim)] border-[3px] border-transparent flex items-center justify-center text-xl hover:scale-110 hover:border-[var(--accent)] transition-all cursor-pointer btn-pressed"
             aria-label="Kid settings"
           >
             ⚙️
           </button>
           <button
             onClick={toggleDarkMode}
-            className="w-10 h-10 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-xl hover:scale-110 transition-all cursor-pointer"
+            className="w-12 h-12 rounded-2xl bg-[var(--surface-dim)] border-[3px] border-transparent flex items-center justify-center text-xl hover:scale-110 hover:border-[var(--accent)] transition-all cursor-pointer btn-pressed"
             aria-label="Toggle dark mode"
           >
             {state.settings.darkMode ? "☀️" : "🌙"}
@@ -97,20 +100,27 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Kid Toggle */}
-      <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-3 mb-6">
+      {/* Hero Avatar */}
+      <div className="relative mb-2">
         <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} />
       </div>
 
+      {/* Sticky kid switcher (compact) — only for multi-kid */}
+      {kids.length > 1 && (
+        <div className="relative sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-2 mb-6">
+          <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} compact />
+        </div>
+      )}
+
       {/* Streaks */}
-      <div className="flex gap-6 mb-8 p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
+      <div className="relative flex gap-6 mb-8 p-6 bg-[var(--surface)] rounded-[2rem] border-[3px] border-[var(--surface-dim)] shadow-[0_6px_0_rgba(0,0,0,0.08)] transition-colors duration-400">
         <StreakCounter streak={morningStreak} label="Morning streak" />
         <div className="w-px bg-[var(--surface-dim)]" />
         <StreakCounter streak={bedtimeStreak} label="Evening streak" />
       </div>
 
       {/* Routine Cards */}
-      <div className="space-y-4 mb-8">
+      <div className="relative space-y-5 mb-8">
         <RoutineCard
           type="morning"
           tasks={state.routines.morning}
@@ -126,11 +136,11 @@ export default function Dashboard() {
       </div>
 
       {/* Weekly Progress */}
-      <div className="space-y-4">
-        <h3 className="text-lg font-bold dark:text-white">This Week</h3>
+      <div className="relative space-y-4">
+        <h3 className="text-xl font-black dark:text-white">This Week</h3>
 
-        <div className="p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <div className="p-6 bg-[var(--surface)] rounded-[2rem] border-[3px] border-[var(--surface-dim)] shadow-[0_6px_0_rgba(0,0,0,0.08)] transition-colors duration-400">
+          <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3">
             ☀️ Morning
           </p>
           <WeeklyDots
@@ -141,8 +151,8 @@ export default function Dashboard() {
           />
         </div>
 
-        <div className="p-4 bg-[var(--surface)] rounded-2xl shadow-sm transition-colors duration-400">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+        <div className="p-6 bg-[var(--surface)] rounded-[2rem] border-[3px] border-[var(--surface-dim)] shadow-[0_6px_0_rgba(0,0,0,0.08)] transition-colors duration-400">
+          <p className="text-sm font-bold text-gray-500 dark:text-gray-400 mb-3">
             🌙 Evening
           </p>
           <WeeklyDots

@@ -58,7 +58,7 @@ export default function RoutinePage() {
   if (!loaded || needsOnboarding) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-2xl animate-pulse">Loading...</div>
+        <div className="text-2xl font-bold animate-pulse">Loading...</div>
       </div>
     );
   }
@@ -67,8 +67,8 @@ export default function RoutinePage() {
   if (routineType !== "morning" && routineType !== "bedtime") {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center gap-4">
-        <p className="text-xl">Routine not found</p>
-        <Link href="/" className="text-blue-500 underline">
+        <p className="text-xl font-bold">Routine not found</p>
+        <Link href="/" className="text-blue-500 underline font-bold">
           Go home
         </Link>
       </div>
@@ -81,15 +81,18 @@ export default function RoutinePage() {
   const completedCount = completion.completed.length;
   const allDone = completedCount === tasks.length;
   return (
-    <main className="max-w-lg mx-auto px-4 py-6 pb-20">
+    <main className="relative max-w-lg mx-auto px-5 py-6 pb-20">
+      {/* Background dots */}
+      <div className="fixed inset-0 bg-playful-dots pointer-events-none" />
+
       <Confetti fire={allDone} />
       <Celebration fire={allDone} />
 
       {/* Top nav */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="relative flex items-center justify-between mb-4">
         <Link
           href="/"
-          className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors"
+          className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 transition-colors font-bold"
         >
           <svg
             className="w-5 h-5"
@@ -108,7 +111,7 @@ export default function RoutinePage() {
         </Link>
         <button
           onClick={toggleDarkMode}
-          className="w-9 h-9 rounded-full bg-[var(--surface-dim)] flex items-center justify-center text-lg hover:scale-110 transition-all cursor-pointer"
+          className="w-12 h-12 rounded-2xl bg-[var(--surface-dim)] border-[3px] border-transparent flex items-center justify-center text-lg hover:scale-110 hover:border-[var(--accent)] transition-all cursor-pointer btn-pressed"
           aria-label="Toggle dark mode"
         >
           {state.settings.darkMode ? "☀️" : "🌙"}
@@ -116,30 +119,30 @@ export default function RoutinePage() {
       </div>
 
       {/* Sticky KidToggle + ProgressBar */}
-      <div className="sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-2 space-y-2 mb-4">
+      <div className="relative sticky top-0 z-10 bg-[var(--bg-blur)] backdrop-blur-sm py-2 space-y-2 mb-4">
         <div className="flex justify-center">
-          <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} />
+          <KidToggle kids={kids} activeKid={activeKid} onToggle={setActiveKid} compact />
         </div>
         <ProgressBar completed={completedCount} total={tasks.length} />
       </div>
 
       {/* Daily theme banner */}
-      <div className="flex justify-center mb-4">
-        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent)]/15 text-sm font-semibold text-[var(--accent)] dark:text-[var(--accent)]">
+      <div className="relative flex justify-center mb-4">
+        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[var(--accent-soft)] text-sm font-black text-[var(--accent)] dark:text-[var(--accent)]">
           {getTodayTheme().icon} {getTodayTheme().name}
         </span>
       </div>
 
       {/* Header */}
-      <div className="text-center mb-6">
-        <span className="text-5xl">{meta.emoji}</span>
-        <h1 className="text-2xl font-bold mt-2 dark:text-white">
+      <div className="relative text-center mb-6">
+        <span className="text-7xl">{meta.emoji}</span>
+        <h1 className="text-3xl font-black mt-2 dark:text-white">
           {meta.title}
         </h1>
       </div>
 
       {/* Task list */}
-      <div className="space-y-3">
+      <div className="relative space-y-4">
         {tasks.map((task, idx) => (
           <TaskItem
             key={task.id}
@@ -154,7 +157,7 @@ export default function RoutinePage() {
       </div>
 
       {/* Add task form */}
-      <div className="mt-3 flex items-center gap-2">
+      <div className="relative mt-4 flex items-center gap-3">
         <input
           type="text"
           value={newTaskLabel}
@@ -165,8 +168,8 @@ export default function RoutinePage() {
               setNewTaskLabel("");
             }
           }}
-          placeholder="Add a task…"
-          className="flex-1 p-4 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-gray-900 dark:text-white text-lg placeholder:text-gray-400 dark:placeholder:text-gray-500 outline-none focus:border-[var(--accent)] transition-colors"
+          placeholder="What's next? 🎯"
+          className="flex-1 p-5 rounded-[1.5rem] border-[3px] border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-gray-900 dark:text-white text-lg font-bold placeholder:text-gray-400 dark:placeholder:text-gray-500 placeholder:font-semibold outline-none focus:border-[var(--accent)] transition-colors"
         />
         <button
           type="button"
@@ -177,7 +180,7 @@ export default function RoutinePage() {
             }
           }}
           disabled={!newTaskLabel.trim()}
-          className="w-14 h-14 rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-2xl font-bold text-gray-400 dark:text-gray-500 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+          className="w-16 h-16 rounded-[1.5rem] border-[3px] border-dashed border-gray-300 dark:border-gray-600 bg-[var(--surface)] text-2xl font-black text-gray-400 dark:text-gray-500 hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer btn-pressed"
         >
           +
         </button>
@@ -185,19 +188,19 @@ export default function RoutinePage() {
 
       {/* Completion message */}
       {allDone && (
-        <div className="mt-8 text-center animate-pop">
-          <div className="text-6xl mb-2">🎉</div>
-          <h2 className="text-2xl font-bold text-green-600 dark:text-green-400">
+        <div className="relative mt-8 text-center animate-bounce-in">
+          <div className="text-7xl mb-2">🚀</div>
+          <h2 className="text-3xl font-black text-green-600 dark:text-green-400">
             Amazing job!
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-gray-500 dark:text-gray-400 mt-1 font-bold">
             You finished your {routineType === "bedtime" ? "evening" : routineType} routine!
           </p>
           <Link
             href="/"
-            className="inline-block mt-4 px-6 py-3 bg-green-500 text-white font-bold rounded-full hover:bg-green-600 transition-colors"
+            className="inline-block mt-4 px-8 py-4 bg-green-500 text-white font-black text-lg rounded-[2rem] hover:bg-green-600 transition-colors shadow-[0_6px_0_rgba(0,0,0,0.15)] active:translate-y-1 active:shadow-[0_2px_0_rgba(0,0,0,0.15)]"
           >
-            Back to Dashboard
+            Back to Dashboard 🏠
           </Link>
         </div>
       )}

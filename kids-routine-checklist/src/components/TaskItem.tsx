@@ -16,14 +16,17 @@ interface TaskItemProps {
 export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMoveUp, onMoveDown }: TaskItemProps) {
   const [pressing, setPressing] = useState(false);
   const [miniCelebration, setMiniCelebration] = useState<string | null>(null);
+  const [justCompleted, setJustCompleted] = useState(false);
   const wasCompleted = useRef(isCompleted);
 
   useEffect(() => {
     if (isCompleted && !wasCompleted.current) {
       const animal = getRandomThemeEmoji();
       setMiniCelebration(animal);
+      setJustCompleted(true);
       const timer = setTimeout(() => setMiniCelebration(null), 1200);
-      return () => clearTimeout(timer);
+      const squishTimer = setTimeout(() => setJustCompleted(false), 400);
+      return () => { clearTimeout(timer); clearTimeout(squishTimer); };
     }
     wasCompleted.current = isCompleted;
   }, [isCompleted]);
@@ -40,12 +43,13 @@ export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMove
       onTouchStart={() => setPressing(true)}
       onTouchEnd={() => setPressing(false)}
       className={`
-        relative w-full flex items-center gap-4 p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer select-none overflow-hidden
+        relative w-full flex items-center gap-4 py-5 px-5 rounded-[1.5rem] border-[3px] transition-all duration-300 cursor-pointer select-none overflow-hidden
         ${pressing ? "scale-95" : "scale-100"}
+        ${justCompleted ? "animate-squish" : ""}
         ${
           isCompleted
-            ? "border-green-300 bg-green-50 dark:bg-[rgba(3,46,21,0.3)] dark:border-green-800 opacity-75"
-            : "border-gray-200 dark:border-gray-700 bg-[var(--surface)] hover:border-[var(--accent)] hover:shadow-md"
+            ? "border-green-300 bg-green-50 dark:bg-[rgba(3,46,21,0.3)] dark:border-green-800 task-completed-glow"
+            : "border-gray-200 dark:border-gray-700 bg-[var(--surface)] hover:border-[var(--accent)] shadow-[0_6px_0_rgba(0,0,0,0.08)] active:translate-y-1 active:shadow-[0_2px_0_rgba(0,0,0,0.08)]"
         }
       `}
     >
@@ -61,14 +65,14 @@ export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMove
           <span className="absolute left-4 top-0 text-xl animate-task-animal-float pointer-events-none z-10" style={{ animationDelay: "0.25s" }}>
             {miniCelebration}
           </span>
-          <div className="absolute inset-0 animate-task-flash pointer-events-none rounded-2xl z-0" />
+          <div className="absolute inset-0 animate-task-flash pointer-events-none rounded-[1.5rem] z-0" />
         </>
       )}
 
       {/* Animated checkmark circle */}
       <div
         className={`
-          relative flex-shrink-0 w-8 h-8 rounded-full border-2 flex items-center justify-center transition-all duration-300
+          relative flex-shrink-0 w-10 h-10 rounded-full border-[3px] flex items-center justify-center transition-all duration-300
           ${
             isCompleted
               ? "border-green-500 bg-green-500"
@@ -78,7 +82,7 @@ export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMove
       >
         {isCompleted && (
           <svg
-            className="w-5 h-5 text-white animate-check"
+            className="w-6 h-6 text-white animate-check"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -97,7 +101,7 @@ export default function TaskItem({ task, isCompleted, onToggle, onRemove, onMove
       {/* Task label */}
       <span
         className={`
-          text-lg font-medium transition-all duration-300 flex-1
+          text-xl font-bold transition-all duration-300 flex-1
           ${
             isCompleted
               ? "line-through text-gray-400 dark:text-gray-500"

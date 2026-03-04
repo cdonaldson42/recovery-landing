@@ -7,6 +7,8 @@ interface ProgressBarProps {
   total: number;
 }
 
+const MILESTONES = [25, 50, 75, 100];
+
 export default function ProgressBar({ completed, total }: ProgressBarProps) {
   const pct = total === 0 ? 0 : Math.round((completed / total) * 100);
   const [showMilestone, setShowMilestone] = useState<string | null>(null);
@@ -44,21 +46,31 @@ export default function ProgressBar({ completed, total }: ProgressBarProps) {
   return (
     <div className="relative w-full">
       <div className="flex items-center justify-between mb-1">
-        <span className="text-sm font-semibold dark:text-gray-200">
+        <span className="text-sm font-bold dark:text-gray-200">
           {completed}/{total} tasks
         </span>
-        <span className="text-sm font-bold dark:text-gray-200">{pct}%</span>
+        <span className="text-sm font-black dark:text-gray-200">{pct}%</span>
       </div>
-      <div className="w-full h-4 bg-[var(--surface-dim)] rounded-full overflow-hidden transition-colors duration-400">
+      <div className="relative w-full h-5 bg-[var(--surface-dim)] rounded-full overflow-hidden transition-colors duration-400">
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${barColor} ${
             showMilestone ? "animate-bounce" : ""
-          }`}
+          } ${pct > 0 && pct < 100 ? "animate-glow-pulse" : ""}`}
           style={{ width: `${pct}%` }}
         />
+        {/* Star milestone markers */}
+        {MILESTONES.map((m) => (
+          <div
+            key={m}
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[10px] pointer-events-none"
+            style={{ left: `${m}%` }}
+          >
+            {pct >= m ? "⭐" : "☆"}
+          </div>
+        ))}
       </div>
       {showMilestone && (
-        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[var(--surface)] px-3 py-1 rounded-full shadow-lg text-sm font-bold animate-bounce whitespace-nowrap">
+        <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[var(--surface)] px-3 py-1 rounded-full shadow-lg text-sm font-black animate-bounce whitespace-nowrap border-[2px] border-[var(--accent)]">
           {showMilestone}
         </div>
       )}

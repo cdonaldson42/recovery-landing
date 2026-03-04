@@ -27,8 +27,8 @@
   --bg-blur: rgba(238, 242, 255, 0.85);
   --surface: #f8faff;
   --surface-dim: #e0e7ff;
-  --accent: #3b82f6;
-  --accent-soft: rgba(59, 130, 246, 0.10);
+  --accent: #2563eb;
+  --accent-soft: rgba(37, 99, 235, 0.12);
 }
 .dark.theme-blue {
   --background: #0c1225;
@@ -36,8 +36,8 @@
   --bg-blur: rgba(12, 18, 37, 0.85);
   --surface: #162040;
   --surface-dim: #1e2d50;
-  --accent: #60a5fa;
-  --accent-soft: rgba(96, 165, 250, 0.12);
+  --accent: #3b82f6;
+  --accent-soft: rgba(59, 130, 246, 0.14);
 }
 
 /* Green theme */
@@ -47,8 +47,8 @@
   --bg-blur: rgba(236, 253, 245, 0.85);
   --surface: #f5fff9;
   --surface-dim: #d1fae5;
-  --accent: #10b981;
-  --accent-soft: rgba(16, 185, 129, 0.10);
+  --accent: #059669;
+  --accent-soft: rgba(5, 150, 105, 0.12);
 }
 .dark.theme-green {
   --background: #0a1a12;
@@ -56,8 +56,8 @@
   --bg-blur: rgba(10, 26, 18, 0.85);
   --surface: #0f2a1a;
   --surface-dim: #15402a;
-  --accent: #34d399;
-  --accent-soft: rgba(52, 211, 153, 0.12);
+  --accent: #10b981;
+  --accent-soft: rgba(16, 185, 129, 0.14);
 }
 
 /* Purple theme */
@@ -67,8 +67,8 @@
   --bg-blur: rgba(245, 243, 255, 0.85);
   --surface: #faf8ff;
   --surface-dim: #e4e0ff;
-  --accent: #8b5cf6;
-  --accent-soft: rgba(139, 92, 246, 0.10);
+  --accent: #7c3aed;
+  --accent-soft: rgba(124, 58, 237, 0.12);
 }
 .dark.theme-purple {
   --background: #110c25;
@@ -76,8 +76,8 @@
   --bg-blur: rgba(17, 12, 37, 0.85);
   --surface: #1c1440;
   --surface-dim: #2a1e50;
-  --accent: #a78bfa;
-  --accent-soft: rgba(167, 139, 250, 0.12);
+  --accent: #8b5cf6;
+  --accent-soft: rgba(139, 92, 246, 0.14);
 }
 
 /* Orange theme */
@@ -87,8 +87,8 @@
   --bg-blur: rgba(255, 247, 237, 0.85);
   --surface: #fffaf5;
   --surface-dim: #fed7aa;
-  --accent: #f97316;
-  --accent-soft: rgba(249, 115, 22, 0.10);
+  --accent: #ea580c;
+  --accent-soft: rgba(234, 88, 12, 0.12);
 }
 .dark.theme-orange {
   --background: #1a0f05;
@@ -96,8 +96,8 @@
   --bg-blur: rgba(26, 15, 5, 0.85);
   --surface: #2a1a0a;
   --surface-dim: #402810;
-  --accent: #fb923c;
-  --accent-soft: rgba(251, 146, 60, 0.12);
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.14);
 }
 
 /* Pink theme */
@@ -107,8 +107,8 @@
   --bg-blur: rgba(253, 242, 248, 0.85);
   --surface: #fff5fa;
   --surface-dim: #fce7f3;
-  --accent: #ec4899;
-  --accent-soft: rgba(236, 72, 153, 0.10);
+  --accent: #db2777;
+  --accent-soft: rgba(219, 39, 119, 0.12);
 }
 .dark.theme-pink {
   --background: #1a0a12;
@@ -116,22 +116,30 @@
   --bg-blur: rgba(26, 10, 18, 0.85);
   --surface: #2a1020;
   --surface-dim: #401830;
-  --accent: #f472b6;
-  --accent-soft: rgba(244, 114, 182, 0.12);
+  --accent: #ec4899;
+  --accent-soft: rgba(236, 72, 153, 0.14);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-nunito);
+  --font-mono: var(--font-nunito);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-nunito), 'Nunito', Arial, Helvetica, sans-serif;
+  font-weight: 600;
   transition: background-color 0.4s ease, color 0.3s ease;
+}
+
+/* Playful dot background */
+.bg-playful-dots {
+  background-image: radial-gradient(circle, var(--accent) 0.8px, transparent 0.8px);
+  background-size: 24px 24px;
+  opacity: 0.06;
 }
 
 /* Checkmark draw-in animation */
@@ -181,6 +189,14 @@ body {
 
 .animate-float-up {
   animation: float-up 1.5s ease-out forwards;
+}
+
+/* ===== SPRITE SHEET ANIMATION ===== */
+/* Generic walk cycle - background-position scrolls across the sprite strip.
+   The component sets steps(N) via inline style to match the frame count. */
+@keyframes sprite-walk {
+  from { background-position-x: 0; }
+  to   { background-position-x: -100%; }
 }
 
 /* ===== CELEBRATION ANIMATIONS ===== */
@@ -476,4 +492,97 @@ body {
 }
 .animate-task-flash {
   animation: task-flash 0.8s ease-out forwards;
+}
+
+/* ===== PLAYFUL REDESIGN ANIMATIONS ===== */
+
+/* Bounce-in for elements entering view */
+@keyframes bounce-in {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.15); opacity: 1; }
+  70% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Wobble on hover for interactive cards */
+@keyframes wobble {
+  0%, 100% { transform: rotate(0deg); }
+  15% { transform: rotate(-6deg); }
+  30% { transform: rotate(5deg); }
+  45% { transform: rotate(-4deg); }
+  60% { transform: rotate(3deg); }
+  75% { transform: rotate(-2deg); }
+}
+.animate-wobble {
+  animation: wobble 0.6s ease-in-out;
+}
+
+/* Squish on task completion */
+@keyframes squish {
+  0% { transform: scale(1); }
+  25% { transform: scale(0.92, 1.08); }
+  50% { transform: scale(1.05, 0.95); }
+  75% { transform: scale(0.98, 1.02); }
+  100% { transform: scale(1); }
+}
+.animate-squish {
+  animation: squish 0.4s ease-out;
+}
+
+/* Glow pulse on progress bar edge */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 4px 0 currentColor; }
+  50% { box-shadow: 0 0 12px 3px currentColor; }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* Today's weekly dot wiggle */
+@keyframes dot-wiggle {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-3px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-2px); }
+}
+.animate-dot-wiggle {
+  animation: dot-wiggle 1.2s ease-in-out infinite;
+}
+
+/* Fire flicker for streaks */
+@keyframes fire-flicker {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  20% { transform: scale(1.1) rotate(-3deg); }
+  40% { transform: scale(0.95) rotate(2deg); }
+  60% { transform: scale(1.12) rotate(-2deg); }
+  80% { transform: scale(0.98) rotate(1deg); }
+}
+.animate-fire-flicker {
+  animation: fire-flicker 0.8s ease-in-out infinite;
+}
+
+/* Pressed-button utility */
+.btn-pressed {
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.15);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn-pressed:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode pressed button */
+.dark .btn-pressed {
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.35);
+}
+.dark .btn-pressed:active {
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+/* Task completed glow */
+.task-completed-glow {
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.3), 0 0 4px rgba(34, 197, 94, 0.2);
 }

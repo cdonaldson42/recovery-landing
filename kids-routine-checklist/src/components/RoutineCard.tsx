@@ -43,31 +43,33 @@ export default function RoutineCard({ type, tasks, completion, streak }: Routine
     <Link
       href={`/routine/${type}`}
       className={`
-        block p-5 rounded-3xl bg-gradient-to-br ${meta.gradient}
-        border-2 ${allDone ? "border-green-400" : "border-transparent"}
-        hover:shadow-lg transition-all duration-300 hover:scale-[1.02] active:scale-[0.98]
+        group block p-6 rounded-[2rem] bg-gradient-to-br ${meta.gradient}
+        border-4 ${allDone ? "border-green-400" : "border-[color-mix(in_srgb,var(--accent)_30%,transparent)]"}
+        shadow-[0_6px_0_rgba(0,0,0,0.12)] hover:shadow-[0_6px_0_rgba(0,0,0,0.18)]
+        active:translate-y-1 active:shadow-[0_2px_0_rgba(0,0,0,0.12)]
+        transition-all duration-200 hover:scale-[1.02]
       `}
     >
       <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <span className="text-3xl">{meta.emoji}</span>
-          <h2 className="text-xl font-bold dark:text-white">{meta.title}</h2>
+        <div className="flex items-center gap-3">
+          <span className="text-5xl group-hover:animate-wobble">{meta.emoji}</span>
+          <h2 className="text-2xl font-extrabold dark:text-white">{meta.title}</h2>
         </div>
         {streak > 0 && (
-          <span className="text-sm font-bold bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(0,0,0,0.3)] px-2 py-1 rounded-full">
+          <span className="text-sm font-black bg-[rgba(255,255,255,0.7)] dark:bg-[rgba(0,0,0,0.3)] px-3 py-1.5 rounded-full">
             🔥 {streak}
           </span>
         )}
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-300 mb-2">
+      <div className="flex items-center justify-between text-sm font-bold text-gray-600 dark:text-gray-300 mb-2">
         <span>
           {completed}/{total} tasks {allDone ? "✅" : ""}
         </span>
-        <span className="font-semibold">{pct}%</span>
+        <span className="font-extrabold">{pct}%</span>
       </div>
 
-      <div className="w-full h-2.5 bg-[rgba(255,255,255,0.5)] dark:bg-[rgba(0,0,0,0.2)] rounded-full overflow-hidden">
+      <div className="w-full h-4 bg-[rgba(255,255,255,0.5)] dark:bg-[rgba(0,0,0,0.2)] rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-500 ease-out ${barColor}`}
           style={{ width: `${pct}%` }}
