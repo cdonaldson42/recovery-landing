@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn About This Center - Recovery.com</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #2d2a26;
+            --primary-soft: #4a453e;
+            --accent: #c75c2e;
+            --accent-hover: #a84a22;
+            --sage: #6b8f71;
+            --sage-light: #e8f0e9;
+            --cream: #faf6ef;
+            --cream-dark: #f0ebe1;
+            --text: #3d3833;
+            --text-light: #7a746c;
+            --text-muted: #a09889;
+            --border: #e5dfd6;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(45,42,38,0.06);
+            --shadow: 0 4px 12px rgba(45,42,38,0.08);
+            --shadow-lg: 0 12px 32px rgba(45,42,38,0.12);
+            --shadow-xl: 0 24px 48px rgba(45,42,38,0.16);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text);
+            line-height: 1.6;
+            background: var(--cream);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---- Section Header ---- */
+        .section-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 3rem;
+        }
+
+        .section-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Fraunces', serif;
+            font-size: 2.1rem;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            line-height: 1.25;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-top: 0.75rem;
+            font-weight: 300;
+        }
+
+        /* ---- Q&A Section ---- */
+        .qa-section {
+            padding: 5rem 2rem 6rem;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .qa-section::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(107,143,113,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .qa-section::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(199,92,46,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .qa-section .section-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .qa-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            max-width: 920px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .qa-card {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.75rem 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 1.15rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qa-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px 0 0 4px;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease;
+        }
+
+        .qa-card:hover {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            background: var(--white);
+        }
+
+        .qa-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .qa-card:hover .qa-icon {
+            background: var(--accent);
+            color: white;
+        }
+
+        .qa-card:hover .qa-arrow {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--accent);
+        }
+
+        .qa-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            background: var(--sage-light);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            color: var(--sage);
+        }
+
+        .qa-content {
+            flex: 1;
+        }
+
+        .qa-content h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.05rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+            line-height: 1.35;
+        }
+
+        .qa-content p {
+            color: var(--text-light);
+            font-size: 0.88rem;
+            line-height: 1.55;
+            font-weight: 300;
+        }
+
+        .qa-arrow {
+            font-size: 1.2rem;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.3s ease;
+            align-self: center;
+            flex-shrink: 0;
+        }
+
+        /* ---- Stagger Animation ---- */
+        .qa-grid .qa-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardIn 0.5s ease forwards;
+        }
+        .qa-grid .qa-card:nth-child(1) { animation-delay: 0.1s; }
+        .qa-grid .qa-card:nth-child(2) { animation-delay: 0.2s; }
+        .qa-grid .qa-card:nth-child(3) { animation-delay: 0.3s; }
+        .qa-grid .qa-card:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes cardIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ---- Modal ---- */
+        .qa-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(45,42,38,0.55);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
+            padding: 2rem;
+        }
+
+        .qa-modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .qa-modal {
+            background: var(--white);
+            border-radius: 20px;
+            max-width: 660px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(24px) scale(0.97);
+            transition: transform 0.35s ease;
+            position: relative;
+        }
+
+        .qa-modal-overlay.active .qa-modal {
+            transform: translateY(0) scale(1);
+        }
+
+        /* Modal Gallery */
+        .qa-modal-gallery {
+            padding: 1.5rem 1.5rem 0;
+        }
+
+        .qa-modal-gallery-main {
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: var(--cream);
+        }
+
+        .qa-modal-gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: opacity 0.3s ease;
+        }
+
+        .qa-modal-gallery-thumbs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .qa-modal-gallery-thumbs img {
+            flex: 1;
+            height: 64px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            opacity: 0.55;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .qa-modal-gallery-thumbs img:hover,
+        .qa-modal-gallery-thumbs img.active {
+            opacity: 1;
+            border-color: var(--accent);
+        }
+
+        /* Modal Header */
+        .qa-modal-header {
+            padding: 1.5rem 1.5rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .qa-modal-header .qa-icon {
+            background: var(--accent);
+            color: white;
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            font-size: 1.3rem;
+        }
+
+        .qa-modal-header h3 {
+            font-family: 'Fraunces', serif;
+            font-size: 1.35rem;
+            color: var(--primary);
+            font-weight: 700;
+            line-height: 1.35;
+            flex: 1;
+        }
+
+        .qa-modal-close {
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            border: none;
+            background: var(--cream);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            transition: all 0.2s;
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            z-index: 2;
+        }
+
+        .qa-modal-close:hover {
+            background: var(--cream-dark);
+            color: var(--primary);
+        }
+
+        /* Modal Body */
+        .qa-modal-body {
+            padding: 1.25rem 1.5rem 2rem;
+        }
+
+        .qa-modal-body p {
+            color: var(--text);
+            font-size: 0.95rem;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .qa-modal-body p strong {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .qa-modal-body ul {
+            list-style: none;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .qa-modal-body ul li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.55rem 0;
+            color: var(--text);
+            font-size: 0.93rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .qa-modal-body ul li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            min-width: 8px;
+            background: var(--sage);
+            border-radius: 50%;
+            margin-top: 0.45rem;
+        }
+
+        .qa-modal-divider {
+            height: 1px;
+            background: var(--border);
+            margin: 1.25rem 0;
+        }
+
+        .qa-modal-meta {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .qa-modal-meta svg {
+            width: 14px;
+            height: 14px;
+            opacity: 0.5;
+        }
+
+        .qa-modal-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            margin-top: 0.75rem;
+            transition: background 0.2s;
+        }
+
+        .qa-modal-cta:hover {
+            background: var(--primary-soft);
+        }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 768px) {
+            .qa-grid {
+                grid-template-columns: 1fr;
+            }
+            .section-header h2 {
+                font-size: 1.65rem;
+            }
+            .qa-modal {
+                max-height: 92vh;
+                border-radius: 16px;
+                margin: 0.5rem;
+            }
+            .qa-modal-gallery,
+            .qa-modal-header,
+            .qa-modal-body {
+                padding-left: 1.25rem;
+                padding-right: 1.25rem;
+            }
+            .qa-modal-header h3 {
+                font-size: 1.15rem;
+            }
+            .qa-modal-gallery-thumbs img {
+                height: 52px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Q&A Section -->
+    <section class="qa-section">
+        <div class="section-header">
+            <p class="section-label">Have Questions?</p>
+            <h2>What Would You Like to Know?</h2>
+            <p>Explore common questions about treatment approaches, therapies, and what to expect at this center.</p>
+        </div>
+
+        <div class="qa-grid">
+            <div class="qa-card" data-modal="holistic">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <div class="qa-content">
+                    <h3>What does a typical day in treatment look like?</h3>
+                    <p>From medical oversight to mindfulness, equine therapy, and chef-prepared nutrition &mdash; see how a structured day supports lasting recovery.</p>
+                </div>
+                <span class="qa-arrow">&rarr;</span>
+            </div>
+
+            <div class="qa-card" data-modal="trauma">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <div class="qa-content">
+                    <h3>How is trauma addressed alongside addiction?</h3>
+                    <p>Dual-diagnosis treatment using EMDR, CBT, somatic therapy, and trauma-specific counseling &mdash; treating the root, not just the symptoms.</p>
+                </div>
+                <span class="qa-arrow">&rarr;</span>
+            </div>
+
+            <div class="qa-card" data-modal="family">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="qa-content">
+                    <h3>Can my family be part of the recovery process?</h3>
+                    <p>Family therapy, virtual sessions, and structured involvement help rebuild trust and create a support system for life after treatment.</p>
+                </div>
+                <span class="qa-arrow">&rarr;</span>
+            </div>
+
+            <div class="qa-card" data-modal="aftercare">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="qa-content">
+                    <h3>What happens after I leave treatment?</h3>
+                    <p>Personalized aftercare plans, professional referral networks, and relapse prevention to sustain long-term recovery beyond the program.</p>
+                </div>
+                <span class="qa-arrow">&rarr;</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== MODALS ===================== -->
+
+    <!-- Modal: Daily Treatment -->
+    <div class="qa-modal-overlay" id="modal-holistic">
+        <div class="qa-modal">
+            <button class="qa-modal-close" aria-label="Close">&times;</button>
+            <div class="qa-modal-gallery">
+                <div class="qa-modal-gallery-main">
+                    <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&h=450&fit=crop" alt="Luxury treatment center grounds">
+                </div>
+                <div class="qa-modal-gallery-thumbs">
+                    <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=200&h=120&fit=crop" alt="Meditation session" data-full="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=200&h=120&fit=crop" alt="Wellness activities" data-full="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=200&h=120&fit=crop" alt="Yoga and movement therapy" data-full="https://images.unsplash.com/photo-1540555700478-4be289fbec6d?w=800&h=450&fit=crop">
+                </div>
+            </div>
+            <div class="qa-modal-header">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+                </div>
+                <h3>What does a typical day in treatment look like?</h3>
+            </div>
+            <div class="qa-modal-body">
+                <p>A structured daily routine is one of the most important elements of residential treatment. Programs typically run <strong>28 to 120 days</strong> depending on individual needs, and each day balances clinical therapy with holistic wellness.</p>
+                <ul>
+                    <li><strong>Morning:</strong> Medical check-in, psychiatric evaluation or individual therapy session (CBT, DBT, or EMDR depending on your treatment plan)</li>
+                    <li><strong>Midday:</strong> Group therapy in a safe, non-judgmental setting, followed by chef-prepared nutritious meals designed to restore physical health</li>
+                    <li><strong>Afternoon:</strong> Complementary therapies including equine-assisted therapy, yoga, mindfulness meditation, forest bathing, or art and music therapy</li>
+                    <li><strong>Evening:</strong> 12-step meetings or solution-focused therapy groups, journaling, and free time in a supportive community environment</li>
+                </ul>
+                <p>The goal is to build healthy coping mechanisms and daily habits that continue long after treatment ends. Physical activities like hiking, swimming, and mountain biking are integrated to rebuild overall wellness &mdash; not just address addiction in isolation.</p>
+
+                <div class="qa-modal-divider"></div>
+                <div class="qa-modal-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    Content sourced from center program details &middot; Independent editorial
+                </div>
+                <a href="#" class="qa-modal-cta">Compare Treatment Programs &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Trauma -->
+    <div class="qa-modal-overlay" id="modal-trauma">
+        <div class="qa-modal">
+            <button class="qa-modal-close" aria-label="Close">&times;</button>
+            <div class="qa-modal-gallery">
+                <div class="qa-modal-gallery-main">
+                    <img src="https://images.unsplash.com/photo-1573497620053-ea5300f94f21?w=800&h=450&fit=crop" alt="One-on-one therapy session">
+                </div>
+                <div class="qa-modal-gallery-thumbs">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=200&h=120&fit=crop" alt="Mindfulness practice" data-full="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=200&h=120&fit=crop" alt="Peaceful therapy space" data-full="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?w=200&h=120&fit=crop" alt="Calm environment" data-full="https://images.unsplash.com/photo-1527137342181-19aab11a8ee8?w=800&h=450&fit=crop">
+                </div>
+            </div>
+            <div class="qa-modal-header">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <h3>How is trauma addressed alongside addiction?</h3>
+            </div>
+            <div class="qa-modal-body">
+                <p>Research shows that <strong>up to 75% of people</strong> entering addiction treatment have experienced significant trauma. Effective programs treat both simultaneously through dual-diagnosis care &mdash; addressing the root causes, not just the substance use.</p>
+                <ul>
+                    <li><strong>EMDR (Eye Movement Desensitization and Reprocessing):</strong> Processes traumatic memories by engaging bilateral stimulation, reducing the emotional charge attached to painful experiences</li>
+                    <li><strong>Cognitive Behavioral Therapy (CBT):</strong> Identifies and reshapes distorted thought patterns that connect trauma to substance use as a coping mechanism</li>
+                    <li><strong>Dialectical Behavior Therapy (DBT):</strong> Builds emotional regulation, distress tolerance, and mindfulness skills for managing intense feelings without substances</li>
+                    <li><strong>Somatic and trauma-specific therapy:</strong> Releases trauma stored in the body through guided awareness, breathwork, and movement-based approaches</li>
+                    <li><strong>Adult-child therapy:</strong> Addresses deep-seated patterns rooted in childhood experiences that continue to drive addictive behavior in adulthood</li>
+                </ul>
+                <p>The best programs screen for trauma at intake and integrate trauma-informed principles into every interaction &mdash; from the clinical team to the daily environment. This means creating a physically and emotionally safe space that avoids re-traumatization throughout the entire stay.</p>
+
+                <div class="qa-modal-divider"></div>
+                <div class="qa-modal-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    Content sourced from center program details &middot; Independent editorial
+                </div>
+                <a href="#" class="qa-modal-cta">Find Trauma-Informed Centers &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Family -->
+    <div class="qa-modal-overlay" id="modal-family">
+        <div class="qa-modal">
+            <button class="qa-modal-close" aria-label="Close">&times;</button>
+            <div class="qa-modal-gallery">
+                <div class="qa-modal-gallery-main">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=450&fit=crop" alt="Family support session">
+                </div>
+                <div class="qa-modal-gallery-thumbs">
+                    <img src="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=200&h=120&fit=crop" alt="Group support" data-full="https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200&h=120&fit=crop" alt="Counseling session" data-full="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=200&h=120&fit=crop" alt="Family together" data-full="https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&h=450&fit=crop">
+                </div>
+            </div>
+            <div class="qa-modal-header">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <h3>Can my family be part of the recovery process?</h3>
+            </div>
+            <div class="qa-modal-body">
+                <p>Addiction doesn't just affect the individual &mdash; it reshapes the entire family system. The most effective treatment programs recognize this and actively involve loved ones in the recovery journey.</p>
+                <ul>
+                    <li><strong>On-site family therapy:</strong> Structured sessions with licensed therapists help families address broken trust, codependent patterns, and communication breakdowns in a safe environment</li>
+                    <li><strong>Virtual family sessions:</strong> For families who can't travel, remote therapy options ensure involvement regardless of distance &mdash; particularly valuable for international programs</li>
+                    <li><strong>Education and workshops:</strong> Families learn about the nature of addiction, enabling behaviors, healthy boundaries, and how to support recovery without sacrificing their own wellbeing</li>
+                    <li><strong>Ongoing support:</strong> Post-treatment family aftercare helps sustain the progress made during residential treatment, with professional referrals for continued guidance</li>
+                </ul>
+                <p>Family involvement during treatment is associated with <strong>better completion rates</strong> and stronger long-term outcomes. Many centers offer a dedicated family week or weekend program designed to rebuild relationships on a healthier foundation.</p>
+
+                <div class="qa-modal-divider"></div>
+                <div class="qa-modal-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    Content sourced from center program details &middot; Independent editorial
+                </div>
+                <a href="#" class="qa-modal-cta">Find Centers with Family Programs &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Aftercare -->
+    <div class="qa-modal-overlay" id="modal-aftercare">
+        <div class="qa-modal">
+            <button class="qa-modal-close" aria-label="Close">&times;</button>
+            <div class="qa-modal-gallery">
+                <div class="qa-modal-gallery-main">
+                    <img src="https://images.unsplash.com/photo-1609234656388-0ff363383899?w=800&h=450&fit=crop" alt="Support group meeting">
+                </div>
+                <div class="qa-modal-gallery-thumbs">
+                    <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=200&h=120&fit=crop" alt="Community support" data-full="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=200&h=120&fit=crop" alt="Outpatient space" data-full="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?w=800&h=450&fit=crop">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=120&fit=crop" alt="Continued wellness" data-full="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=450&fit=crop">
+                </div>
+            </div>
+            <div class="qa-modal-header">
+                <div class="qa-icon">
+                    <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <h3>What happens after I leave treatment?</h3>
+            </div>
+            <div class="qa-modal-body">
+                <p>The transition from residential treatment back to everyday life is one of the most vulnerable periods in recovery. A strong aftercare program is what separates short-term progress from <strong>lasting sobriety</strong>.</p>
+                <ul>
+                    <li><strong>Personalized aftercare plan:</strong> Developed before discharge, tailored to your specific triggers, living situation, and recovery goals &mdash; not a one-size-fits-all handout</li>
+                    <li><strong>Professional referral network:</strong> Connections to outpatient therapists, psychiatrists, and local support groups in your home area to maintain continuity of care</li>
+                    <li><strong>Relapse prevention training:</strong> Practical skills learned during treatment &mdash; identifying triggers, managing cravings, and building healthy routines &mdash; reinforced through ongoing practice</li>
+                    <li><strong>Sober living options:</strong> Transitional housing for those who need a structured environment before returning to full independence</li>
+                    <li><strong>Alumni community:</strong> Peer support from others who've completed treatment, providing accountability and shared understanding beyond the clinical setting</li>
+                </ul>
+                <p>Programs lasting <strong>28 to 120 days</strong> show better outcomes, and centers that invest in robust aftercare demonstrate significantly lower relapse rates. The best programs view discharge as the beginning of a new phase &mdash; not the end of support.</p>
+
+                <div class="qa-modal-divider"></div>
+                <div class="qa-modal-meta">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    Content sourced from center program details &middot; Independent editorial
+                </div>
+                <a href="#" class="qa-modal-cta">Explore Aftercare Options &rarr;</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Q&A Card → Modal
+        document.querySelectorAll('.qa-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const overlay = document.getElementById('modal-' + card.dataset.modal);
+                if (overlay) {
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Modal close handlers
+        document.querySelectorAll('.qa-modal-overlay').forEach(overlay => {
+            overlay.querySelector('.qa-modal-close').addEventListener('click', () => {
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Gallery: thumbnail click swaps hero image
+            const mainImg = overlay.querySelector('.qa-modal-gallery-main img');
+            const thumbs = overlay.querySelectorAll('.qa-modal-gallery-thumbs img');
+            const originalSrc = mainImg ? mainImg.src : '';
+            const originalAlt = mainImg ? mainImg.alt : '';
+
+            thumbs.forEach(thumb => {
+                thumb.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const fullSrc = thumb.dataset.full || thumb.src.replace(/w=200&h=120/, 'w=800&h=450');
+                    mainImg.style.opacity = '0';
+                    setTimeout(() => {
+                        mainImg.src = fullSrc;
+                        mainImg.alt = thumb.alt;
+                        mainImg.style.opacity = '1';
+                    }, 150);
+                    thumbs.forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                });
+            });
+
+            // Reset gallery on close
+            const observer = new MutationObserver(() => {
+                if (!overlay.classList.contains('active') && mainImg) {
+                    mainImg.src = originalSrc;
+                    mainImg.alt = originalAlt;
+                    thumbs.forEach(t => t.classList.remove('active'));
+                    // Scroll modal back to top
+                    overlay.querySelector('.qa-modal').scrollTop = 0;
+                }
+            });
+            observer.observe(overlay, { attributes: true, attributeFilter: ['class'] });
+        });
+
+        // Escape key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.qa-modal-overlay.active').forEach(overlay => {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
