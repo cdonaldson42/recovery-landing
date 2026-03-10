@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recovery.com - Find Treatment You Can Afford</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #31279b;
+            --primary-dark: #2b238a;
+            --primary-light: #4a3fc4;
+            --secondary: #ff4a6b;
+            --secondary-hover: #e8405f;
+            --accent-blue: #367afb;
+            --gray-1100: #162941;
+            --gray-900: #394e66;
+            --gray-800: #4d657f;
+            --gray-700: #677d95;
+            --gray-600: #8699af;
+            --gray-400: #bfcbda;
+            --gray-200: #ebeff4;
+            --gray-100: #f3f6f8;
+            --gray-50: #f8f9fb;
+            --white: #ffffff;
+            --green: #74ca71;
+            --shadow-sm: 0 1px 2px rgba(22,41,65,0.06);
+            --shadow: 0 4px 12px rgba(22,41,65,0.08);
+            --shadow-lg: 0 12px 32px rgba(22,41,65,0.10);
+            --shadow-xl: 0 20px 40px rgba(22,41,65,0.14);
+            --radius-sm: 0.5rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --radius-xl: 1.5rem;
+        }
+
+        body {
+            font-family: 'Figtree', sans-serif;
+            color: var(--gray-900);
+            line-height: 1.6;
+            background: var(--white);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ---- Crisis Banner ---- */
+        .crisis-banner {
+            background: var(--gray-1100);
+            padding: 0.65rem 2rem;
+            text-align: center;
+        }
+
+        .crisis-banner p {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.75);
+            font-weight: 400;
+        }
+
+        .crisis-banner a {
+            color: var(--white);
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        .crisis-banner a:hover {
+            color: var(--gray-200);
+        }
+
+        /* ---- Navigation ---- */
+        nav {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 0.85rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            background: var(--primary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+            font-weight: 800;
+        }
+
+        .nav-cta {
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.55rem 1.25rem;
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: background 0.2s, transform 0.15s;
+        }
+
+        .nav-cta:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        /* ---- Hero ---- */
+        .hero {
+            padding: 4.5rem 2rem 4rem;
+            background: var(--gray-50);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -15%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(49,39,155,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(54,122,251,0.04) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 3.5rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(49,39,155,0.08);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.3rem 0.85rem;
+            border-radius: 20px;
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 {
+            font-size: 3rem;
+            line-height: 1.15;
+            color: var(--gray-1100);
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .hero-content h1 em {
+            font-style: normal;
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--gray-700);
+            margin-bottom: 2rem;
+            max-width: 480px;
+            line-height: 1.7;
+            font-weight: 400;
+        }
+
+        .trust-row {
+            display: flex;
+            gap: 1.75rem;
+            flex-wrap: wrap;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--gray-700);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .trust-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+        }
+
+        /* Search Card */
+        .search-card {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem;
+            box-shadow: var(--shadow-xl);
+            border: 1px solid var(--gray-200);
+            opacity: 0;
+            transform: translateY(24px);
+            animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+        }
+
+        .search-card h2 {
+            font-size: 1.25rem;
+            color: var(--gray-1100);
+            margin-bottom: 0.3rem;
+            font-weight: 700;
+        }
+
+        .search-card > p {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 0.85rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+            color: var(--gray-800);
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.6rem 0.85rem;
+            border: 1px solid var(--gray-400);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: 'Figtree', sans-serif;
+            color: var(--gray-900);
+            background: var(--white);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(49,39,155,0.1);
+        }
+
+        .btn-search {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'Figtree', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+            margin-top: 0.35rem;
+        }
+
+        .btn-search:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(49,39,155,0.25);
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 0.65rem;
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            font-weight: 400;
+        }
+
+        /* ---- Section Shared ---- */
+        .section-container {
+            max-width: 1060px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            color: var(--gray-1100);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .section-header p {
+            color: var(--gray-700);
+            font-size: 1.05rem;
+            max-width: 540px;
+            margin: 0 auto;
+            font-weight: 400;
+        }
+
+        /* ---- Payment Options ---- */
+        .payment-options {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+
+        .payment-card {
+            background: var(--gray-50);
+            padding: 1.75rem 1.5rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--gray-200);
+        }
+
+        .payment-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .payment-icon {
+            width: 52px;
+            height: 52px;
+            background: rgba(49,39,155,0.08);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.15rem;
+            font-size: 1.4rem;
+        }
+
+        .payment-card h3 {
+            color: var(--gray-1100);
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .payment-card p {
+            color: var(--gray-700);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ---- Reassurance ---- */
+        .reassurance {
+            padding: 5rem 2rem;
+            background: var(--gray-50);
+        }
+
+        .reassurance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        .reassurance-card {
+            background: var(--white);
+            padding: 1.75rem;
+            border-radius: var(--radius-lg);
+            border-left: 3px solid var(--primary);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-top: 1px solid var(--gray-200);
+            border-right: 1px solid var(--gray-200);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .reassurance-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .reassurance-card h3 {
+            font-style: italic;
+            color: var(--gray-1100);
+            margin-bottom: 0.5rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+        }
+
+        .reassurance-card p {
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* ---- How It Works ---- */
+        .how-it-works {
+            padding: 5rem 2rem;
+            background: var(--white);
+            position: relative;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2.25rem 1.5rem;
+            background: var(--gray-50);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .step:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .step-num {
+            width: 42px;
+            height: 42px;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin: 0 auto 1.15rem;
+        }
+
+        .step h3 {
+            color: var(--gray-1100);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .step p {
+            color: var(--gray-700);
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* ---- Know Your Options ---- */
+        .know-options {
+            padding: 5rem 2rem;
+            background: var(--gray-50);
+            overflow: hidden;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3.5rem;
+            align-items: center;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .options-content h2 {
+            font-size: 1.85rem;
+            color: var(--gray-1100);
+            margin-bottom: 0.65rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .options-content > p {
+            color: var(--gray-700);
+            font-size: 1rem;
+            margin-bottom: 1.75rem;
+            font-weight: 400;
+        }
+
+        .options-checklist {
+            list-style: none;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.85rem;
+            padding: 0.85rem 0;
+            border-bottom: 1px solid var(--gray-200);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .know-options.in-view .option-item {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .know-options.in-view .option-item:nth-child(1) { transition-delay: 0.1s; }
+        .know-options.in-view .option-item:nth-child(2) { transition-delay: 0.2s; }
+        .know-options.in-view .option-item:nth-child(3) { transition-delay: 0.3s; }
+        .know-options.in-view .option-item:nth-child(4) { transition-delay: 0.4s; }
+        .know-options.in-view .option-item:nth-child(5) { transition-delay: 0.5s; }
+
+        .option-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(49,39,155,0.08);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            color: var(--primary);
+        }
+
+        .option-item h4 {
+            color: var(--gray-1100);
+            font-size: 0.9rem;
+            margin-bottom: 0.15rem;
+            font-weight: 600;
+        }
+
+        .option-item p {
+            color: var(--gray-700);
+            font-size: 0.83rem;
+            margin: 0;
+        }
+
+        /* Resource Card */
+        .resource-card {
+            background: var(--gray-1100);
+            border-radius: var(--radius-xl);
+            padding: 2.25rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .resource-card::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -40%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(49,39,155,0.3) 0%, transparent 70%);
+        }
+
+        .resource-card::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -20%;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(54,122,251,0.15) 0%, transparent 70%);
+        }
+
+        .resource-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .resource-icon {
+            width: 52px;
+            height: 52px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.85rem;
+            font-size: 1.3rem;
+        }
+
+        .resource-header h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .resource-header p {
+            opacity: 0.6;
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .resource-list {
+            list-style: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .resource-item {
+            background: rgba(255,255,255,0.07);
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .know-options.in-view .resource-item {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .know-options.in-view .resource-item:nth-child(1) { transition-delay: 0.6s; }
+        .know-options.in-view .resource-item:nth-child(2) { transition-delay: 0.75s; }
+        .know-options.in-view .resource-item:nth-child(3) { transition-delay: 0.9s; }
+        .know-options.in-view .resource-item:nth-child(4) { transition-delay: 1.05s; }
+        .know-options.in-view .resource-item:nth-child(5) { transition-delay: 1.2s; }
+
+        .resource-bullet {
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .resource-item span {
+            font-size: 0.83rem;
+            font-weight: 400;
+        }
+
+        .resource-item a {
+            color: white;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        /* ---- Features ---- */
+        .features {
+            padding: 5rem 2rem;
+            background: var(--gray-1100);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 50%, rgba(49,39,155,0.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(54,122,251,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .features .section-header {
+            position: relative;
+            z-index: 1;
+        }
+
+        .features .section-header h2 {
+            color: white;
+        }
+
+        .features .section-header p {
+            color: rgba(255,255,255,0.6);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.06);
+            padding: 1.75rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.06);
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .feature-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.15rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .feature-card p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            font-weight: 400;
+        }
+
+        /* ---- Locations ---- */
+        .locations {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .location-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1.25rem;
+        }
+
+        .location-card {
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .location-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .location-img {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: var(--radius-lg);
+            margin-bottom: 0.65rem;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .location-card h3 {
+            font-size: 0.95rem;
+            color: var(--gray-1100);
+            font-weight: 600;
+        }
+
+        .location-card p {
+            color: var(--gray-600);
+            font-size: 0.78rem;
+        }
+
+        /* ---- Resources Grid ---- */
+        .resources-section {
+            padding: 5rem 2rem;
+            background: var(--gray-50);
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+
+        .resource-guide-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--gray-200);
+            cursor: pointer;
+        }
+
+        .resource-guide-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .resource-guide-top {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.85rem;
+        }
+
+        .resource-guide-top.purple { background: rgba(49,39,155,0.06); }
+        .resource-guide-top.blue { background: rgba(54,122,251,0.06); }
+        .resource-guide-top.light { background: var(--gray-100); }
+
+        .resource-guide-body {
+            padding: 1.35rem;
+        }
+
+        .resource-guide-body h3 {
+            font-size: 1rem;
+            color: var(--gray-1100);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+
+        .resource-guide-body p {
+            color: var(--gray-700);
+            font-size: 0.83rem;
+            line-height: 1.6;
+        }
+
+        /* ---- Testimonial ---- */
+        .testimonial {
+            padding: 5rem 2rem;
+            background: var(--white);
+        }
+
+        .testimonial-card {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-card blockquote {
+            font-size: 1.4rem;
+            color: var(--gray-1100);
+            line-height: 1.65;
+            margin-bottom: 1.75rem;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.85rem;
+        }
+
+        .author-avatar {
+            width: 46px;
+            height: 46px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .author-info {
+            text-align: left;
+        }
+
+        .author-info strong {
+            display: block;
+            color: var(--gray-1100);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .author-info span {
+            color: var(--gray-600);
+            font-size: 0.83rem;
+        }
+
+        /* ---- CTA ---- */
+        .cta {
+            padding: 5rem 2rem;
+            background: var(--gray-50);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2rem;
+            color: var(--gray-1100);
+            margin-bottom: 0.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .cta p {
+            color: var(--gray-700);
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            font-weight: 400;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 0.85rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-large {
+            padding: 0.85rem 2rem;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            font-family: 'Figtree', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-large.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-large.primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(49,39,155,0.3);
+        }
+
+        .btn-large.secondary {
+            background: transparent;
+            color: var(--gray-1100);
+            border: 1px solid var(--gray-400);
+        }
+
+        .btn-large.secondary:hover {
+            border-color: var(--gray-800);
+            background: var(--white);
+        }
+
+        /* ---- Footer ---- */
+        footer {
+            background: var(--gray-1100);
+            color: rgba(255,255,255,0.6);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        footer a {
+            color: rgba(255,255,255,0.6);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.75rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.85rem;
+        }
+
+        .footer-legal {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+        }
+
+        /* ---- Animations ---- */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-stagger > * {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal-stagger.visible > *:nth-child(1) { opacity: 1; transform: translateY(0); transition-delay: 0s; }
+        .reveal-stagger.visible > *:nth-child(2) { opacity: 1; transform: translateY(0); transition-delay: 0.08s; }
+        .reveal-stagger.visible > *:nth-child(3) { opacity: 1; transform: translateY(0); transition-delay: 0.16s; }
+        .reveal-stagger.visible > *:nth-child(4) { opacity: 1; transform: translateY(0); transition-delay: 0.24s; }
+        .reveal-stagger.visible > *:nth-child(5) { opacity: 1; transform: translateY(0); transition-delay: 0.32s; }
+        .reveal-stagger.visible > *:nth-child(6) { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+
+        /* ---- Responsive ---- */
+        @media (max-width: 900px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.25rem;
+            }
+
+            .hero-content p {
+                margin: 0 auto 2rem;
+            }
+
+            .trust-row {
+                justify-content: center;
+            }
+
+            .search-card {
+                max-width: 480px;
+                margin: 0 auto;
+            }
+
+            .payment-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .reassurance-grid,
+            .steps,
+            .feature-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .options-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+
+            .location-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .section-header h2 {
+                font-size: 1.65rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-content h1 {
+                font-size: 1.85rem;
+            }
+
+            .hero {
+                padding: 2.5rem 1.25rem 2rem;
+            }
+
+            .search-card {
+                padding: 1.5rem;
+            }
+
+            .payment-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .location-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Crisis Banner -->
+    <div class="crisis-banner">
+        <p>Need help now? SAMHSA Helpline: <a href="tel:1-800-662-4357">1-800-662-4357</a> (free, confidential, 24/7) &nbsp;|&nbsp; Dial <a href="tel:211">211</a> for local resources</p>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-mark">R</div>
+                Recovery.com
+            </a>
+            <a href="#search" class="nav-cta">Find Free Treatment</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <span class="hero-label">Cost should never be a barrier</span>
+                <h1>Find treatment that fits your <em>budget</em>, not just your needs</h1>
+                <p>Whether you're on Medicaid, Medicare, uninsured, or just need help paying &mdash; quality treatment exists, and you deserve access to it. No account required. No sales calls.</p>
+                <div class="trust-row">
+                    <div class="trust-item">
+                        <span class="trust-dot"></span>
+                        Medicaid-Accepted Programs
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-dot"></span>
+                        Sliding Scale &amp; Free Options
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-dot"></span>
+                        State-Funded Programs
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-card" id="search">
+                <h2>Find affordable treatment near you</h2>
+                <p>See what's available in under 60 seconds</p>
+                <form>
+                    <div class="form-group">
+                        <label for="location">Your Location</label>
+                        <input type="text" id="location" placeholder="City, State or ZIP code">
+                    </div>
+                    <div class="form-group">
+                        <label for="concern">What are you dealing with?</label>
+                        <select id="concern">
+                            <option value="">Select what fits best</option>
+                            <option value="substance">Substance Use</option>
+                            <option value="alcohol">Alcohol</option>
+                            <option value="mental-health">Mental Health</option>
+                            <option value="trauma">Trauma</option>
+                            <option value="eating-disorder">Eating Disorder</option>
+                            <option value="co-occurring">More than one of these</option>
+                            <option value="unsure">Not sure yet</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="payment">How will you pay?</label>
+                        <select id="payment">
+                            <option value="">Select your situation</option>
+                            <option value="medicaid">Medicaid</option>
+                            <option value="medicare">Medicare</option>
+                            <option value="uninsured">No insurance</option>
+                            <option value="sliding-scale">Need sliding scale / reduced cost</option>
+                            <option value="state-funded">Looking for state-funded programs</option>
+                            <option value="free">Looking for free treatment</option>
+                            <option value="grants">Need a grant or scholarship</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-search">Find Treatment Options</button>
+                    <p class="form-note">Free and confidential. No account needed. No spam.</p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Payment Options -->
+    <section class="payment-options">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Ways to pay for treatment</h2>
+                <p>You have more options than you think. Many programs accept government insurance or offer free and reduced-cost care.</p>
+            </div>
+            <div class="payment-grid reveal-stagger">
+                <div class="payment-card">
+                    <div class="payment-icon">&#x1F3E5;</div>
+                    <h3>Medicaid</h3>
+                    <p>Covers mental health and substance use treatment in every state. Many facilities accept it &mdash; we'll show you which ones.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-icon">&#x1F6E1;</div>
+                    <h3>Medicare</h3>
+                    <p>Covers inpatient and outpatient behavioral health care, including therapy, medication, and hospital stays.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-icon">&#x1F3DB;</div>
+                    <h3>State-Funded Programs</h3>
+                    <p>Every state has publicly funded treatment programs. Eligibility is usually based on income and need, not insurance status.</p>
+                </div>
+                <div class="payment-card">
+                    <div class="payment-icon">&#x1F91D;</div>
+                    <h3>Free &amp; Sliding Scale</h3>
+                    <p>Community health centers, nonprofits, and grant-funded programs offer free or pay-what-you-can treatment.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reassurance Cards -->
+    <section class="reassurance">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>We hear you</h2>
+                <p>If any of these sound familiar, you're in the right place.</p>
+            </div>
+            <div class="reassurance-grid reveal-stagger">
+                <div class="reassurance-card">
+                    <h3>"I can't afford treatment"</h3>
+                    <p>Thousands of programs offer free or reduced-cost care. We filter by Medicaid, sliding scale, and state-funded options so you see what's actually available to you.</p>
+                </div>
+                <div class="reassurance-card">
+                    <h3>"Half the places I call don't take my insurance"</h3>
+                    <p>We show Medicaid and Medicare acceptance upfront &mdash; before you pick up the phone. No more wasted calls.</p>
+                </div>
+                <div class="reassurance-card">
+                    <h3>"I'm not sure my problem is 'bad enough' for treatment"</h3>
+                    <p>There's no minimum threshold. If you're struggling with your mental health, trauma, substance use, or any combination &mdash; help is available. You don't need a label to deserve support.</p>
+                </div>
+                <div class="reassurance-card">
+                    <h3>"I've been through the system before and it didn't work"</h3>
+                    <p>Different approaches work for different people. We help you find programs by treatment type &mdash; CBT, DBT, SMART Recovery, trauma-focused, holistic, and more &mdash; not just the nearest open bed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>How it works</h2>
+                <p>From search to getting help &mdash; no middlemen, no brokers</p>
+            </div>
+            <div class="steps reveal-stagger">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h3>Tell us your situation</h3>
+                    <p>Enter your location and what you're dealing with. Select your payment situation &mdash; Medicaid, uninsured, or need for financial help.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h3>See what's available</h3>
+                    <p>Browse programs that accept your coverage or offer free and reduced-cost care. Compare treatment approaches, read reviews from real people.</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h3>Reach out on your terms</h3>
+                    <p>Call, email, save for later, or share with someone who's helping you. No pressure. Multiple ways to take the next step when you're ready.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Know Your Options -->
+    <section class="know-options">
+        <div class="options-grid">
+            <div class="options-content">
+                <h2>Know your options before you call</h2>
+                <p>Being informed helps you get the right care faster. Here's what to know about paying for treatment.</p>
+                <ul class="options-checklist">
+                    <li class="option-item">
+                        <div class="option-icon">&#x2714;</div>
+                        <div>
+                            <h4>Medicaid covers treatment in every state</h4>
+                            <p>Including therapy, medication-assisted treatment, residential care, and outpatient programs</p>
+                        </div>
+                    </li>
+                    <li class="option-item">
+                        <div class="option-icon">&#x2714;</div>
+                        <div>
+                            <h4>You can apply for Medicaid at any time</h4>
+                            <p>Many facilities can help you apply on-site, or call your state's Medicaid office</p>
+                        </div>
+                    </li>
+                    <li class="option-item">
+                        <div class="option-icon">&#x2714;</div>
+                        <div>
+                            <h4>SAMHSA block grants fund free care</h4>
+                            <p>Federal grants flow to every state specifically for people who can't pay for treatment</p>
+                        </div>
+                    </li>
+                    <li class="option-item">
+                        <div class="option-icon">&#x2714;</div>
+                        <div>
+                            <h4>Sliding scale adjusts to your income</h4>
+                            <p>Many community health centers and nonprofits charge based on what you can actually afford</p>
+                        </div>
+                    </li>
+                    <li class="option-item">
+                        <div class="option-icon">&#x2714;</div>
+                        <div>
+                            <h4>Treatment scholarships exist</h4>
+                            <p>Organizations like 10,000 Beds, the NAADAC Foundation, and individual facilities offer grants</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="resource-card">
+                <div class="resource-header">
+                    <div class="resource-icon">&#x1F4DE;</div>
+                    <h3>Free resources you can call right now</h3>
+                    <p>All of these are free, confidential, and available 24/7</p>
+                </div>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <div class="resource-bullet">1</div>
+                        <span><a href="tel:1-800-662-4357">SAMHSA Helpline: 1-800-662-4357</a> &mdash; treatment referrals in your area</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-bullet">2</div>
+                        <span><a href="tel:211">Dial 211</a> &mdash; local assistance for housing, food, healthcare, and treatment</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-bullet">3</div>
+                        <span><a href="tel:988">988 Suicide &amp; Crisis Lifeline</a> &mdash; for crisis support, call or text 988</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-bullet">4</div>
+                        <span><a href="sms:741741&body=HELLO">Crisis Text Line</a> &mdash; text HOME to 741741</span>
+                    </li>
+                    <li class="resource-item">
+                        <div class="resource-bullet">5</div>
+                        <span><a href="tel:1-800-950-6264">NAMI Helpline: 1-800-950-6264</a> &mdash; mental health info and support</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="section-header reveal">
+            <h2>Why people trust Recovery.com</h2>
+            <p>Honest information in a space that needs it</p>
+        </div>
+        <div class="feature-grid reveal-stagger">
+            <div class="feature-card">
+                <div class="feature-icon">&#x2713;</div>
+                <h3>Verified Facilities</h3>
+                <p>Every listing is license-verified. We check accreditation so you don't have to guess what's legitimate.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x2605;</div>
+                <h3>Real Reviews</h3>
+                <p>Honest reviews from real people who've been through treatment. Peer experience beats marketing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">$</div>
+                <h3>Cost Upfront</h3>
+                <p>See Medicaid acceptance, sliding scale availability, and cost info before you call. No surprises.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x1F50D;</div>
+                <h3>Filter by Approach</h3>
+                <p>Search by treatment type &mdash; CBT, DBT, SMART, trauma-focused, holistic, medication-assisted, and more.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x1F6E1;</div>
+                <h3>No Brokers, No Selling</h3>
+                <p>We never sell your info. No middlemen. Connect directly with programs &mdash; that's it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">&#x1F512;</div>
+                <h3>Private &amp; Safe</h3>
+                <p>No account required to browse. No retargeting ads. Your search stays yours.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations -->
+    <section class="locations">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Find affordable treatment by state</h2>
+                <p>Every state has Medicaid-covered and publicly funded treatment options</p>
+            </div>
+            <div class="location-grid reveal-stagger">
+                <div class="location-card">
+                    <div class="location-img" style="background: linear-gradient(135deg, rgba(49,39,155,0.08), rgba(54,122,251,0.06));"></div>
+                    <h3>California</h3>
+                    <p>Medi-Cal Accepted</p>
+                </div>
+                <div class="location-card">
+                    <div class="location-img" style="background: linear-gradient(135deg, var(--gray-100), var(--gray-200));"></div>
+                    <h3>Florida</h3>
+                    <p>State-Funded Programs</p>
+                </div>
+                <div class="location-card">
+                    <div class="location-img" style="background: linear-gradient(135deg, rgba(49,39,155,0.08), rgba(54,122,251,0.06));"></div>
+                    <h3>Texas</h3>
+                    <p>Medicaid &amp; Free Options</p>
+                </div>
+                <div class="location-card">
+                    <div class="location-img" style="background: linear-gradient(135deg, var(--gray-100), var(--gray-200));"></div>
+                    <h3>New York</h3>
+                    <p>Sliding Scale Available</p>
+                </div>
+                <div class="location-card">
+                    <div class="location-img" style="background: linear-gradient(135deg, rgba(49,39,155,0.08), rgba(54,122,251,0.06));"></div>
+                    <h3>Ohio</h3>
+                    <p>Medicaid Accepted</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources -->
+    <section class="resources-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Guides to help you navigate this</h2>
+                <p>Plain-language information to help you understand your options &mdash; no jargon, no judgment</p>
+            </div>
+            <div class="resources-grid reveal-stagger">
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top purple">&#x1F4B0;</div>
+                    <div class="resource-guide-body">
+                        <h3>How to Pay for Treatment</h3>
+                        <p>A clear guide to Medicaid, Medicare, state programs, grants, sliding scale, and other ways to afford care without private insurance.</p>
+                    </div>
+                </div>
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top light">&#x1F9ED;</div>
+                    <div class="resource-guide-body">
+                        <h3>Understanding Levels of Care</h3>
+                        <p>What's the difference between inpatient, outpatient, IOP, and residential? Plain-language explanations of what each involves.</p>
+                    </div>
+                </div>
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top blue">&#x1F9E0;</div>
+                    <div class="resource-guide-body">
+                        <h3>Treatment Approaches Compared</h3>
+                        <p>CBT, DBT, SMART Recovery, 12-step, trauma-focused, holistic, medication-assisted &mdash; how they differ and how to find your fit.</p>
+                    </div>
+                </div>
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top purple">&#x1F3E5;</div>
+                    <div class="resource-guide-body">
+                        <h3>How to Apply for Medicaid</h3>
+                        <p>Step-by-step guide to applying in your state. Many facilities can also help you apply on-site when you arrive.</p>
+                    </div>
+                </div>
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top light">&#x1F4CB;</div>
+                    <div class="resource-guide-body">
+                        <h3>What to Expect in Treatment</h3>
+                        <p>What a typical day looks like, how long programs last, what to bring, and what to ask before you go.</p>
+                    </div>
+                </div>
+                <div class="resource-guide-card">
+                    <div class="resource-guide-top blue">&#x1F331;</div>
+                    <div class="resource-guide-body">
+                        <h3>Life After Treatment</h3>
+                        <p>Resources for what comes next: housing, education, employment, community support, and building a life you want.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial">
+        <div class="testimonial-card reveal">
+            <blockquote>
+                "I was on Medicaid and thought no one would take me. Recovery.com showed me three programs in my area that accepted my coverage. I didn't have to call ten places just to be turned away. I got help that week."
+            </blockquote>
+            <div class="testimonial-author">
+                <div class="author-avatar">JR</div>
+                <div class="author-info">
+                    <strong>James R.</strong>
+                    <span>Found treatment through Medicaid, Tennessee</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="reveal">
+            <h2>You deserve help, regardless of what you can pay</h2>
+            <p>Search programs that accept Medicaid, offer sliding scale, or provide free care. No account needed.</p>
+            <div class="cta-buttons">
+                <a href="#search" class="btn-large primary">Find Affordable Treatment</a>
+                <a href="tel:1-800-662-4357" class="btn-large secondary">SAMHSA Helpline: 1-800-662-4357</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">How It Works</a>
+            <a href="#">For Treatment Centers</a>
+            <a href="#">Resources</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+        <p class="footer-legal">&copy; 2026 Recovery.com. All rights reserved. | We do not provide medical advice. Always consult a healthcare professional.</p>
+    </footer>
+
+    <script>
+        // Scroll-triggered reveal animations
+        const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Know Options section animation
+        const knowOptionsSection = document.querySelector('.know-options');
+        const optionsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        if (knowOptionsSection) optionsObserver.observe(knowOptionsSection);
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
